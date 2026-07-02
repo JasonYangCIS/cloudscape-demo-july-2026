@@ -21,6 +21,20 @@ export interface Distribution {
   date: Date;
 }
 
+// Type for commits.json mock, used by the workshop starter dashboard
+export interface Commit {
+  id: string;
+  repo: string;
+  branch: string;
+  author: string;
+  message: string;
+  filesChanged: number;
+  additions: number;
+  deletions: number;
+  status: 'Passed' | 'Failed' | 'Pending';
+  date: Date;
+}
+
 export interface ContentOrigin {
   value: string;
   label: string;
