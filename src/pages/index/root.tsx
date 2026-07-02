@@ -60,6 +60,9 @@ function CommitsDashboard({ commits }: CommitsDashboardProps) {
             <Button variant={timeRange === 'week' ? 'primary' : 'normal'} onClick={() => setTimeRange('week')}>
               Last Week
             </Button>
+            <Button href="/storybook/" target="_blank" iconName="external" iconAlign="right">
+              Open Storybook
+            </Button>
           </SpaceBetween>
         }
       >

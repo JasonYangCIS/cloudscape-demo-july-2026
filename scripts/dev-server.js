@@ -8,6 +8,7 @@ const app = express();
 const defaultTheme = '';
 
 app.use(express.static(`${path.join(config.outputPath, process.env.THEME ?? defaultTheme)}`));
+app.use('/storybook', express.static(path.resolve('storybook-static')));
 app.listen(config.devServerPort, () => {
   console.log(`Local server listening at http://localhost:${config.devServerPort}`);
 });

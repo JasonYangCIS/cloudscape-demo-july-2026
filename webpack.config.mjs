@@ -91,13 +91,19 @@ const createWebpackConfig = (base, { includeDevServer }) => {
             devMiddleware: {
               publicPath: '/' + path.relative(config.outputPath, base.output.path),
             },
-            static: {
-              directory: config.outputPath,
-              serveIndex: {
-                icons: true,
-                filter: filename => filename.endsWith('.html'),
+            static: [
+              {
+                directory: config.outputPath,
+                serveIndex: {
+                  icons: true,
+                  filter: filename => filename.endsWith('.html'),
+                },
               },
-            },
+              {
+                directory: path.resolve('storybook-static'),
+                publicPath: '/storybook',
+              },
+            ],
             port: config.devServerPort,
             allowedHosts: 'all',
             client: {
