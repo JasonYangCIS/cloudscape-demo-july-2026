@@ -102,6 +102,9 @@ const createWebpackConfig = (base, { includeDevServer }) => {
             allowedHosts: 'all',
             client: {
               webSocketURL: 'auto://0.0.0.0:0/ws',
+              overlay: {
+                runtimeErrors: error => !/ResizeObserver loop completed with undelivered notifications/.test(error.message),
+              },
             },
           },
         }
