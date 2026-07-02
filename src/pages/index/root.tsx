@@ -50,6 +50,7 @@ function CommitsDashboard({ commits }: CommitsDashboardProps) {
     <SpaceBetween size="l">
       <Header
         variant="h1"
+        style={{ marginTop: '16px', marginBottom: '16px' }}
         description="Commit activity across your repositories."
         actions={
           <SpaceBetween direction="horizontal" size="xs">
