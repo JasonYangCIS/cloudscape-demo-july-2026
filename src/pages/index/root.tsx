@@ -19,6 +19,7 @@ import { CustomAppLayout, TableEmptyState, TableNoMatchState } from '../commons/
 import { useLocalStorage } from '../commons/use-local-storage';
 import { COLUMN_DEFINITIONS, DEFAULT_PREFERENCES, Preferences } from './commits-table-config';
 import { filterCommitsByRange, filterCommitsByText, TimeRange } from './commits-utils';
+import { ThemeSwitcher } from './theme-switcher';
 import CommitsAreaChart from './widgets/commits-area-chart';
 import CommitsBarChart from './widgets/commits-bar-chart';
 
@@ -120,12 +121,17 @@ export interface AppProps {
 
 export function App({ commits }: AppProps) {
   return (
-    <CustomAppLayout
-      navigationHide={true}
-      toolsHide={true}
-      breadcrumbs={<BreadcrumbGroup items={commitsBreadcrumbs} expandAriaLabel="Show path" ariaLabel="Breadcrumbs" />}
-      content={<CommitsDashboard commits={commits} />}
-      contentType="table"
-    />
+    <>
+      <CustomAppLayout
+        navigationHide={true}
+        toolsHide={true}
+        breadcrumbs={
+          <BreadcrumbGroup items={commitsBreadcrumbs} expandAriaLabel="Show path" ariaLabel="Breadcrumbs" />
+        }
+        content={<CommitsDashboard commits={commits} />}
+        contentType="table"
+      />
+      <ThemeSwitcher />
+    </>
   );
 }
