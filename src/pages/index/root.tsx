@@ -18,7 +18,7 @@ import { Commit } from '../../fake-server/types';
 import { CustomAppLayout, TableEmptyState, TableNoMatchState } from '../commons/common-components';
 import { useLocalStorage } from '../commons/use-local-storage';
 import { COLUMN_DEFINITIONS, DEFAULT_PREFERENCES, Preferences } from './commits-table-config';
-import { filterCommitsByRange, TimeRange } from './commits-utils';
+import { filterCommitsByRange, filterCommitsByText, TimeRange } from './commits-utils';
 import CommitsAreaChart from './widgets/commits-area-chart';
 import CommitsBarChart from './widgets/commits-bar-chart';
 
@@ -30,22 +30,20 @@ interface CommitsDashboardProps {
 
 function CommitsDashboard({ commits }: CommitsDashboardProps) {
   const [timeRange, setTimeRange] = useState<TimeRange>('week');
+  const [filteringText, setFilteringText] = useState('');
   const [preferences, setPreferences] = useLocalStorage('React-Commits-Dashboard-Preferences', DEFAULT_PREFERENCES);
 
   const rangeCommits = useMemo(() => filterCommitsByRange(commits, timeRange), [commits, timeRange]);
-
-  const { items, actions, filteredItemsCount, collectionProps, filterProps, paginationProps } = useCollection(
-    rangeCommits,
-    {
-      filtering: {
-        empty: <TableEmptyState resourceName="Commit" />,
-        noMatch: <TableNoMatchState onClearFilter={() => actions.setFiltering('')} />,
-      },
-      pagination: { pageSize: preferences?.pageSize },
-      sorting: { defaultState: { sortingColumn: COLUMN_DEFINITIONS[6], isDescending: true } },
-      selection: {},
-    },
+  const filteredCommits = useMemo(
+    () => filterCommitsByText(rangeCommits, filteringText),
+    [rangeCommits, filteringText],
   );
+
+  const { items, collectionProps, paginationProps } = useCollection(filteredCommits, {
+    pagination: { pageSize: preferences?.pageSize },
+    sorting: { defaultState: { sortingColumn: COLUMN_DEFINITIONS[6], isDescending: true } },
+    selection: {},
+  });
 
   return (
     <SpaceBetween size="l">
@@ -67,19 +65,20 @@ function CommitsDashboard({ commits }: CommitsDashboardProps) {
       </Header>
 
       <TextFilter
-        {...filterProps}
+        filteringText={filteringText}
+        onChange={({ detail }) => setFilteringText(detail.filteringText)}
         filteringAriaLabel="Filter commits"
         filteringPlaceholder="Placeholder"
         filteringClearAriaLabel="Clear"
-        countText={filteredItemsCount === 1 ? '1 match' : `${filteredItemsCount} matches`}
+        countText={filteredCommits.length === 1 ? '1 match' : `${filteredCommits.length} matches`}
       />
 
       <Grid gridDefinition={[{ colspan: { default: 12, m: 6 } }, { colspan: { default: 12, m: 6 } }]}>
         <Container header={<Header variant="h3">Commits per day</Header>}>
-          <CommitsAreaChart commits={items} />
+          <CommitsAreaChart commits={filteredCommits} />
         </Container>
         <Container header={<Header variant="h3">Commits by repository</Header>}>
-          <CommitsBarChart commits={items} />
+          <CommitsBarChart commits={filteredCommits} />
         </Container>
       </Grid>
 
@@ -95,6 +94,13 @@ function CommitsDashboard({ commits }: CommitsDashboardProps) {
         wrapLines={preferences?.wrapLines}
         stripedRows={preferences?.stripedRows}
         contentDensity={preferences?.contentDensity}
+        empty={
+          filteringText ? (
+            <TableNoMatchState onClearFilter={() => setFilteringText('')} />
+          ) : (
+            <TableEmptyState resourceName="Commit" />
+          )
+        }
         ariaLabels={{
           selectionGroupLabel: 'Commits selection',
           allItemsSelectionLabel: () => 'select all',
