@@ -1,62 +1,125 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 
-import Box from '@cloudscape-design/components/box';
+import { useCollection } from '@cloudscape-design/collection-hooks';
+import BreadcrumbGroup from '@cloudscape-design/components/breadcrumb-group';
+import Button from '@cloudscape-design/components/button';
 import Container from '@cloudscape-design/components/container';
+import Grid from '@cloudscape-design/components/grid';
 import Header from '@cloudscape-design/components/header';
-import Link from '@cloudscape-design/components/link';
+import Pagination from '@cloudscape-design/components/pagination';
 import SpaceBetween from '@cloudscape-design/components/space-between';
+import Table from '@cloudscape-design/components/table';
+import TextFilter from '@cloudscape-design/components/text-filter';
 
-import { CustomAppLayout } from '../commons/common-components';
+import { commitsBreadcrumbs } from '../../common/breadcrumbs';
+import { Commit } from '../../fake-server/types';
+import { CustomAppLayout, TableEmptyState, TableNoMatchState } from '../commons/common-components';
+import { useLocalStorage } from '../commons/use-local-storage';
+import { COLUMN_DEFINITIONS, DEFAULT_PREFERENCES, Preferences } from './commits-table-config';
+import { filterCommitsByRange, TimeRange } from './commits-utils';
+import CommitsAreaChart from './widgets/commits-area-chart';
+import CommitsBarChart from './widgets/commits-bar-chart';
 
 import '../../styles/base.scss';
 
-function IntroContent() {
+interface CommitsDashboardProps {
+  commits: Commit[];
+}
+
+function CommitsDashboard({ commits }: CommitsDashboardProps) {
+  const [timeRange, setTimeRange] = useState<TimeRange>('week');
+  const [preferences, setPreferences] = useLocalStorage('React-Commits-Dashboard-Preferences', DEFAULT_PREFERENCES);
+
+  const rangeCommits = useMemo(() => filterCommitsByRange(commits, timeRange), [commits, timeRange]);
+
+  const { items, actions, filteredItemsCount, collectionProps, filterProps, paginationProps } = useCollection(
+    rangeCommits,
+    {
+      filtering: {
+        empty: <TableEmptyState resourceName="Commit" />,
+        noMatch: <TableNoMatchState onClearFilter={() => actions.setFiltering('')} />,
+      },
+      pagination: { pageSize: preferences?.pageSize },
+      sorting: { defaultState: { sortingColumn: COLUMN_DEFINITIONS[6], isDescending: true } },
+      selection: {},
+    },
+  );
+
   return (
     <SpaceBetween size="l">
-      <Header variant="h1" description="Build a code commits dashboard with Cloudscape and Builder.io.">
-        Welcome to the workshop
+      <Header
+        variant="h1"
+        description="Commit activity across your repositories."
+        actions={
+          <SpaceBetween direction="horizontal" size="xs">
+            <Button variant={timeRange === 'month' ? 'primary' : 'normal'} onClick={() => setTimeRange('month')}>
+              Last Month
+            </Button>
+            <Button variant={timeRange === 'week' ? 'primary' : 'normal'} onClick={() => setTimeRange('week')}>
+              Last Week
+            </Button>
+          </SpaceBetween>
+        }
+      >
+        Commits dashboard
       </Header>
-      <Container header={<Header variant="h2">What you'll build</Header>}>
-        <SpaceBetween size="s">
-          <Box variant="p">
-            <b>1. A commits dashboard.</b> An area chart and a bar chart summarizing commit activity, and a table
-            listing individual commits. You'll turn a Figma design into working Cloudscape components, right on top
-            of this page.
-          </Box>
-          <Box variant="p">
-            <b>2. A custom theme.</b> Once the dashboard is working, you'll apply your own branding on top of these
-            same Cloudscape components using <Box variant="code">@cloudscape-design/components/theming</Box>, without
-            changing any component code.
-          </Box>
-        </SpaceBetween>
-      </Container>
-      <Container header={<Header variant="h2">How to get started</Header>}>
-        <SpaceBetween size="s">
-          <Box variant="p">
-            Full step-by-step instructions for this workshop are on the workshop site:
-          </Box>
-          <Link external={true} href="https://wdc-seattle-2026.vercel.app/">
-            wdc-seattle-2026.vercel.app
-          </Link>
-          <Box variant="p">
-            Mock commit data is already available at <Box variant="code">src/resources/commits.json</Box> — Fusion
-            will use it automatically instead of inventing new data.
-          </Box>
-        </SpaceBetween>
-      </Container>
+
+      <TextFilter
+        {...filterProps}
+        filteringAriaLabel="Filter commits"
+        filteringPlaceholder="Placeholder"
+        filteringClearAriaLabel="Clear"
+        countText={filteredItemsCount === 1 ? '1 match' : `${filteredItemsCount} matches`}
+      />
+
+      <Grid gridDefinition={[{ colspan: { default: 12, m: 6 } }, { colspan: { default: 12, m: 6 } }]}>
+        <Container header={<Header variant="h3">Commits per day</Header>}>
+          <CommitsAreaChart commits={items} />
+        </Container>
+        <Container header={<Header variant="h3">Commits by repository</Header>}>
+          <CommitsBarChart commits={items} />
+        </Container>
+      </Grid>
+
+      <Table
+        {...collectionProps}
+        enableKeyboardNavigation={true}
+        columnDefinitions={COLUMN_DEFINITIONS}
+        items={items}
+        selectionType="multi"
+        variant="container"
+        stickyHeader={true}
+        resizableColumns={true}
+        wrapLines={preferences?.wrapLines}
+        stripedRows={preferences?.stripedRows}
+        contentDensity={preferences?.contentDensity}
+        ariaLabels={{
+          selectionGroupLabel: 'Commits selection',
+          allItemsSelectionLabel: () => 'select all',
+          itemSelectionLabel: ({ selectedItems }, item) =>
+            selectedItems.some(selected => selected.id === item.id) ? `${item.id} is selected` : item.id,
+        }}
+        pagination={<Pagination {...paginationProps} />}
+        preferences={<Preferences preferences={preferences} setPreferences={setPreferences} />}
+      />
     </SpaceBetween>
   );
 }
 
-export function App() {
+export interface AppProps {
+  commits: Commit[];
+}
+
+export function App({ commits }: AppProps) {
   return (
     <CustomAppLayout
       navigationHide={true}
       toolsHide={true}
-      content={<IntroContent />}
-      contentType="default"
+      breadcrumbs={<BreadcrumbGroup items={commitsBreadcrumbs} expandAriaLabel="Show path" ariaLabel="Breadcrumbs" />}
+      content={<CommitsDashboard commits={commits} />}
+      contentType="table"
     />
   );
 }

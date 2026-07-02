@@ -11,6 +11,17 @@ export const resourcesBreadcrumbs = [
   },
 ];
 
+export const commitsBreadcrumbs = [
+  {
+    text: 'Service',
+    href: '#',
+  },
+  {
+    text: 'Commits dashboard',
+    href: '#',
+  },
+];
+
 export const resourceDetailBreadcrumbs = [
   ...resourcesBreadcrumbs,
   {
