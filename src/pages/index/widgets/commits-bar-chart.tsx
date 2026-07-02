@@ -25,7 +25,6 @@ export default function CommitsBarChart({ commits }: CommitsBarChartProps) {
     <BarChart
       hideFilter={true}
       hideLegend={true}
-      fitHeight={true}
       height={300}
       xScaleType="categorical"
       xTitle="Repository"

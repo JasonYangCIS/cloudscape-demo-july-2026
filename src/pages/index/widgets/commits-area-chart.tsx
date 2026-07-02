@@ -51,7 +51,6 @@ export default function CommitsAreaChart({ commits }: CommitsAreaChartProps) {
     <CartesianChart
       {...commonChartProps}
       highcharts={highcharts}
-      fitHeight={true}
       chartHeight={300}
       series={series}
       xAxis={{
