@@ -22,6 +22,7 @@ import { filterCommitsByRange, filterCommitsByText, TimeRange } from './commits-
 import { ThemeSwitcher } from './theme-switcher';
 import CommitsAreaChart from './widgets/commits-area-chart';
 import CommitsBarChart from './widgets/commits-bar-chart';
+import GamificationPanel from './widgets/gamification-panel';
 
 import '../../styles/base.scss';
 
@@ -77,6 +78,10 @@ function CommitsDashboard({ commits }: CommitsDashboardProps) {
         filteringClearAriaLabel="Clear"
         countText={filteredCommits.length === 1 ? '1 match' : `${filteredCommits.length} matches`}
       />
+
+      <Container header={<Header variant="h3">Team progress</Header>}>
+        <GamificationPanel commits={filteredCommits} />
+      </Container>
 
       <Grid gridDefinition={[{ colspan: { default: 12, m: 6 } }, { colspan: { default: 12, m: 6 } }]}>
         <Container header={<Header variant="h3">Commits per day</Header>}>

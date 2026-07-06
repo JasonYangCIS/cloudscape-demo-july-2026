@@ -65,3 +65,74 @@ export function getCommitCountsByRepo(commits: readonly Commit[]): RepoCommitCou
   }
   return [...byRepo.entries()].map(([repo, count]) => ({ repo, count })).sort((a, b) => b.count - a.count);
 }
+
+export interface AuthorCommitCount {
+  author: string;
+  count: number;
+}
+
+export function getCommitCountsByAuthor(commits: readonly Commit[]): AuthorCommitCount[] {
+  const byAuthor = new Map<string, number>();
+  for (const commit of commits) {
+    byAuthor.set(commit.author, (byAuthor.get(commit.author) ?? 0) + 1);
+  }
+  return [...byAuthor.entries()].map(([author, count]) => ({ author, count })).sort((a, b) => b.count - a.count);
+}
+
+function addDays(dayKey: string, amount: number): string {
+  const date = new Date(`${dayKey}T00:00:00.000Z`);
+  date.setUTCDate(date.getUTCDate() + amount);
+  return date.toISOString().slice(0, 10);
+}
+
+export interface StreakInfo {
+  currentStreak: number;
+  longestStreak: number;
+}
+
+export function getCommitStreaks(commits: readonly Commit[]): StreakInfo {
+  const daily = getDailyCommitCounts(commits);
+  if (daily.length === 0) {
+    return { currentStreak: 0, longestStreak: 0 };
+  }
+
+  const activeDays = new Set(daily.map(entry => entry.day));
+  const firstDay = daily[0].day;
+  const lastDay = daily[daily.length - 1].day;
+
+  let longestStreak = 0;
+  let currentStreak = 0;
+  let runningStreak = 0;
+  for (let day = firstDay; day <= lastDay; day = addDays(day, 1)) {
+    if (activeDays.has(day)) {
+      runningStreak += 1;
+      longestStreak = Math.max(longestStreak, runningStreak);
+      currentStreak = runningStreak;
+    } else {
+      runningStreak = 0;
+      currentStreak = 0;
+    }
+  }
+
+  return { currentStreak, longestStreak };
+}
+
+const COMMITS_PER_LEVEL = 20;
+
+export interface LevelInfo {
+  level: number;
+  commitsIntoLevel: number;
+  commitsPerLevel: number;
+  progressPercent: number;
+}
+
+export function getTeamLevel(commits: readonly Commit[]): LevelInfo {
+  const total = commits.length;
+  const commitsIntoLevel = total % COMMITS_PER_LEVEL;
+  return {
+    level: Math.floor(total / COMMITS_PER_LEVEL) + 1,
+    commitsIntoLevel,
+    commitsPerLevel: COMMITS_PER_LEVEL,
+    progressPercent: Math.round((commitsIntoLevel / COMMITS_PER_LEVEL) * 100),
+  };
+}
