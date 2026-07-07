@@ -35,7 +35,9 @@ function IntroContent() {
       <Container header={<Header variant="h2">How to get started</Header>}>
         <SpaceBetween size="s">
           <Box variant="p">
-            Full step-by-step instructions for this workshop are on the workshop site:
+            Full step-by-step instructions for this workshop, including setup requirements, the Figma design you'll
+            be working from, and guidance for both the dashboard and theming exercises, are available on the
+            workshop site:
           </Box>
           <Link external={true} href="https://wdc-seattle-2026.vercel.app/">
             wdc-seattle-2026.vercel.app
