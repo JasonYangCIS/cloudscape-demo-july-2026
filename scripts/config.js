@@ -5,4 +5,5 @@ import path from 'node:path';
 export default {
   outputPath: path.resolve('lib'),
   devServerPort: 9615,
+  storybookPort: 6006,
 };
