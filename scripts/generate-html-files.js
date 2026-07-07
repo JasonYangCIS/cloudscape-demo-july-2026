@@ -28,7 +28,7 @@ function applyTheme(filename, extension) {
 function getPageContent(pageName, { title }) {
   const systemName = 'Cloudscape';
   const pageTitle = `${systemName} Demos - ${title}`;
-  const headerTitle = pageName === 'index' ? 'Builder.io &amp; AWS Workshop - Cloudscape' : 'Cloudscape Demos';
+  const headerTitle = pageName === 'index' ? 'Builder.io &amp; Amazon Workshop - Cloudscape' : 'Cloudscape Demos';
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
