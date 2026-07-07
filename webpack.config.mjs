@@ -99,6 +99,14 @@ const createWebpackConfig = (base, { includeDevServer }) => {
               },
             },
             port: config.devServerPort,
+            proxy: [
+              {
+                context: ['/storybook'],
+                target: `http://localhost:${config.storybookPort}`,
+                pathRewrite: { '^/storybook': '' },
+                ws: true,
+              },
+            ],
           },
         }
       : {}),
