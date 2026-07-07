@@ -87,7 +87,7 @@ function getExamplesContent() {
   return `<!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Builder.io &amp; AWS Workshop - Cloudscape Demos</title>
+    <title>Builder.io &amp; Amazon Workshop - Cloudscape Demos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
@@ -178,7 +178,7 @@ function getExamplesContent() {
   </head>
   <body>
     <header class="page-header">
-      <p class="eyebrow">Builder.io &amp; AWS Workshop</p>
+      <p class="eyebrow">Builder.io &amp; Amazon Workshop</p>
       <h1 class="page-title">Cloudscape Demos</h1>
       <p class="page-subtitle">
         Reference examples for other Cloudscape patterns. Your workshop starting point is on the <a href="index.html">home page</a>.

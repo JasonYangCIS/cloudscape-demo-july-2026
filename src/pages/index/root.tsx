@@ -40,10 +40,6 @@ function IntroContent() {
           <Link external={true} href="https://wdc-seattle-2026.vercel.app/">
             wdc-seattle-2026.vercel.app
           </Link>
-          <Box variant="p">
-            Mock commit data is already available at <Box variant="code">src/resources/commits.json</Box> — Fusion
-            will use it automatically instead of inventing new data.
-          </Box>
         </SpaceBetween>
       </Container>
     </SpaceBetween>
