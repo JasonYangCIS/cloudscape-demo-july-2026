@@ -11,6 +11,7 @@
     "build:theme": "cross-env THEME=$npm_config_theme npm run webpack && npm run generate-html",
     "build": "npm run build:theme --theme=all",
     "postbuild": "npm run build-storybook",
+    "prestart": "test -d storybook-static || npm run build-storybook",
     "start": "npm run start:theme",
     "start:theme": "cross-env NODE_ENV=development THEME=$npm_config_theme webpack-dev-server",
     "serve": "node ./scripts/dev-server.js",
