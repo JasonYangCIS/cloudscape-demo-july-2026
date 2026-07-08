@@ -43,7 +43,7 @@ let activeCustomTheme: { reset: () => void } | null = null;
 
 export let currentTheme: ThemeChoice = localStorage.load<ThemeChoice>('Awsui-Theme-Preference') ?? 'light';
 
-function apply(theme: ThemeChoice) {
+export function apply(theme: ThemeChoice) {
   if (activeCustomTheme) {
     activeCustomTheme.reset();
     activeCustomTheme = null;

@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { useCollection } from '@cloudscape-design/collection-hooks';
 import BreadcrumbGroup from '@cloudscape-design/components/breadcrumb-group';
+import Button from '@cloudscape-design/components/button';
 import Header from '@cloudscape-design/components/header';
 import Pagination from '@cloudscape-design/components/pagination';
 import SegmentedControl from '@cloudscape-design/components/segmented-control';
@@ -61,15 +62,20 @@ function CommitsDashboard() {
         description="Commit activity across your repositories"
         counter={getHeaderCounterText(rangeFilteredCommits, collectionProps.selectedItems)}
         actions={
-          <SegmentedControl
-            selectedId={timeRange}
-            onChange={({ detail }) => setTimeRange(detail.selectedId as TimeRange)}
-            label="Time range"
-            options={[
-              { id: 'month', text: 'Last Month' },
-              { id: 'week', text: 'Last Week' },
-            ]}
-          />
+          <SpaceBetween direction="horizontal" size="s">
+            <SegmentedControl
+              selectedId={timeRange}
+              onChange={({ detail }) => setTimeRange(detail.selectedId as TimeRange)}
+              label="Time range"
+              options={[
+                { id: 'month', text: 'Last Month' },
+                { id: 'week', text: 'Last Week' },
+              ]}
+            />
+            <Button iconName="external" href="/storybook/" target="_blank" ariaLabel="Open Storybook">
+              Storybook
+            </Button>
+          </SpaceBetween>
         }
       >
         Code commits
