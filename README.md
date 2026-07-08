@@ -1,6 +1,6 @@
 ## Cloudscape Design System Demos
 
-This package contains demo pages that follow [Cloudscape Design System](https://cloudscape.design) guidelines and use [Cloudscape components](https://cloudscape.design/components).
+This package contains demo pages that follow [Cloudscape Design System](https://cloudscape.design) guidelines and use [Cloudscape components](https://cloudscape.design/components)
 
 Cloudscape is an open source design system for building intuitive, engaging, and inclusive user experiences at scale. It consists of an extensive set of guidelines to create web applications, along with the design resources and front-end components to streamline implementation.
 
