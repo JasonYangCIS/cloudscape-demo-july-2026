@@ -21,6 +21,7 @@ import { useLocalStorage } from '../commons/use-local-storage';
 import { filterByTimeRange, TimeRange } from './chart-data';
 import { CommitsCharts } from './charts';
 import { COLUMN_DEFINITIONS, CONTENT_DISPLAY_OPTIONS, DEFAULT_PREFERENCES, PAGE_SIZE_OPTIONS } from './table-config';
+import { ThemeSettings } from './theme-settings';
 
 import '../../styles/base.scss';
 import * as styles from './root.module.scss';
@@ -115,12 +116,17 @@ function CommitsDashboard() {
 
 export function App() {
   return (
-    <CustomAppLayout
-      navigationHide={true}
-      toolsHide={true}
-      breadcrumbs={<BreadcrumbGroup items={commitsBreadcrumbs} expandAriaLabel="Show path" ariaLabel="Breadcrumbs" />}
-      content={<CommitsDashboard />}
-      contentType="default"
-    />
+    <>
+      <CustomAppLayout
+        navigationHide={true}
+        toolsHide={true}
+        breadcrumbs={
+          <BreadcrumbGroup items={commitsBreadcrumbs} expandAriaLabel="Show path" ariaLabel="Breadcrumbs" />
+        }
+        content={<CommitsDashboard />}
+        contentType="default"
+      />
+      <ThemeSettings />
+    </>
   );
 }
