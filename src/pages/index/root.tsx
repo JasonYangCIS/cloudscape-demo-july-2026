@@ -18,12 +18,12 @@ import { CustomAppLayout, TableEmptyState, TableNoMatchState } from '../commons/
 import DataProvider from '../commons/data-provider';
 import { Preferences } from '../commons/table-config';
 import { useLocalStorage } from '../commons/use-local-storage';
-import { CommitsCharts } from './charts';
 import { filterByTimeRange, TimeRange } from './chart-data';
+import { CommitsCharts } from './charts';
 import { COLUMN_DEFINITIONS, CONTENT_DISPLAY_OPTIONS, DEFAULT_PREFERENCES, PAGE_SIZE_OPTIONS } from './table-config';
-import * as styles from './root.module.scss';
 
 import '../../styles/base.scss';
+import * as styles from './root.module.scss';
 
 function CommitsDashboard() {
   const [loading, setLoading] = useState(true);

@@ -38,7 +38,6 @@ export function CommitsCharts({ commits }: CommitsChartsProps) {
         ariaLabel="Commits per day"
         ariaDescription="Area chart comparing commits to the main branch against all other branches over time."
         height={300}
-        fitHeight={true}
         empty={<>No commits available.</>}
       />
       <BarChart
@@ -49,7 +48,6 @@ export function CommitsCharts({ commits }: CommitsChartsProps) {
         ariaLabel="Commits per repository"
         ariaDescription="Bar chart showing the number of commits per repository."
         height={300}
-        fitHeight={true}
         hideFilter={true}
         empty={<>No commits available.</>}
       />
