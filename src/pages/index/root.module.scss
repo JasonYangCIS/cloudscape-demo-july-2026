@@ -1,0 +1,9 @@
+.commits-chart {
+  :global(svg[aria-label='Commits per day by branch']) {
+    margin: 15px;
+  }
+}
+
+.design-system-repo {
+  color: rgba(65, 117, 5, 1);
+}

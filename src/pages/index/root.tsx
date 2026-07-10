@@ -23,6 +23,7 @@ import { CustomAppLayout, TableEmptyState, TableNoMatchState } from '../commons/
 import DataProvider from '../commons/data-provider';
 import { ThemeSwitcher } from './theme-switcher';
 
+import * as styles from './root.module.scss';
 import '../../styles/base.scss';
 
 type DateRange = 'week' | 'month';
@@ -51,7 +52,13 @@ const rawColumns: TableProps.ColumnDefinition<Commit>[] = [
     isRowHeader: true,
     minWidth: 100,
   },
-  { id: 'repo', sortingField: 'repo', header: 'Repository', cell: item => item.repo, minWidth: 130 },
+  {
+    id: 'repo',
+    sortingField: 'repo',
+    header: 'Repository',
+    cell: item => (item.repo === 'design-system' ? <span className={styles['design-system-repo']}>{item.repo}</span> : item.repo),
+    minWidth: 130,
+  },
   { id: 'branch', sortingField: 'branch', header: 'Branch', cell: item => item.branch, minWidth: 160 },
   { id: 'author', sortingField: 'author', header: 'Author', cell: item => item.author, minWidth: 140 },
   { id: 'message', sortingField: 'message', header: 'Message', cell: item => item.message, minWidth: 260 },
@@ -158,23 +165,25 @@ function CommitsDashboard() {
         Code commits
       </Header>
       <Grid gridDefinition={[{ colspan: { default: 12, xs: 6 } }, { colspan: { default: 12, xs: 6 } }]}>
-        <AreaChart
-          series={areaSeries}
-          height={300}
-          xTitle="Date"
-          yTitle="Commits"
-          xScaleType="categorical"
-          ariaLabel="Commits per day by branch"
-          statusType={commits ? 'finished' : 'loading'}
-          loadingText="Loading commit activity"
-          detailPopoverFooter={() => (averageValue ? `Average: ${averageValue.toFixed(1)} commits/day` : undefined)}
-          i18nStrings={{
-            filterLabel: 'Filter displayed data',
-            filterPlaceholder: 'Filter data',
-            legendAriaLabel: 'Legend',
-            detailTotalLabel: 'Total',
-          }}
-        />
+        <div className={styles['commits-chart']}>
+          <AreaChart
+            series={areaSeries}
+            height={300}
+            xTitle="Date"
+            yTitle="Commits"
+            xScaleType="categorical"
+            ariaLabel="Commits per day by branch"
+            statusType={commits ? 'finished' : 'loading'}
+            loadingText="Loading commit activity"
+            detailPopoverFooter={() => (averageValue ? `Average: ${averageValue.toFixed(1)} commits/day` : undefined)}
+            i18nStrings={{
+              filterLabel: 'Filter displayed data',
+              filterPlaceholder: 'Filter data',
+              legendAriaLabel: 'Legend',
+              detailTotalLabel: 'Total',
+            }}
+          />
+        </div>
         <BarChart
           series={repoSeries}
           height={300}
