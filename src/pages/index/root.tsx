@@ -6,6 +6,7 @@ import { useCollection } from '@cloudscape-design/collection-hooks';
 import AreaChart, { AreaChartProps } from '@cloudscape-design/components/area-chart';
 import BarChart, { BarChartProps } from '@cloudscape-design/components/bar-chart';
 import Box from '@cloudscape-design/components/box';
+import Button from '@cloudscape-design/components/button';
 import Grid from '@cloudscape-design/components/grid';
 import Header from '@cloudscape-design/components/header';
 import Pagination from '@cloudscape-design/components/pagination';
@@ -141,12 +142,17 @@ function CommitsDashboard() {
         variant="h1"
         description="Commit activity across your repositories."
         actions={
-          <SegmentedControl
-            label="Date range"
-            selectedId={dateRange}
-            onChange={({ detail }) => setDateRange(detail.selectedId as DateRange)}
-            options={DATE_RANGE_OPTIONS}
-          />
+          <SpaceBetween direction="horizontal" size="s" alignItems="center">
+            <SegmentedControl
+              label="Date range"
+              selectedId={dateRange}
+              onChange={({ detail }) => setDateRange(detail.selectedId as DateRange)}
+              options={DATE_RANGE_OPTIONS}
+            />
+            <Button iconName="external" href="/storybook/" target="_blank">
+              Storybook
+            </Button>
+          </SpaceBetween>
         }
       >
         Code commits
