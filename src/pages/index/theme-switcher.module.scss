@@ -8,14 +8,22 @@
 }
 
 // Theme button-padding tokens (e.g. the creative theme) can differ between
-// horizontal and vertical, which turns an icon-only button oval. Force a
-// fixed circular hit area here regardless of the active theme.
+// horizontal and vertical, which turns an icon-only button oval and can grow
+// larger than intended. Force a small, fixed circular hit area with the icon
+// centered here regardless of the active theme's button spacing tokens.
 .theme-switcher :global(button) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border-radius: 50%;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+}
+
+.theme-switcher :global(button) > * {
+  margin: 0 !important;
 }
