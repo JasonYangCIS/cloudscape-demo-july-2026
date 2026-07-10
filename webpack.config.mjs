@@ -88,6 +88,13 @@ const createWebpackConfig = (base, { includeDevServer }) => {
     ...(includeDevServer
       ? {
           devServer: {
+            client: {
+              overlay: {
+                // Benign browser warning unrelated to app correctness; see
+                // https://github.com/WICG/resize-observer/issues/38
+                runtimeErrors: error => !error.message.includes('ResizeObserver loop'),
+              },
+            },
             devMiddleware: {
               publicPath: '/' + path.relative(config.outputPath, base.output.path),
             },
