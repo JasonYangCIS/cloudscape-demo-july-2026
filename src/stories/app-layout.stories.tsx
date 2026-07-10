@@ -1,0 +1,30 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: MIT-0
+import React from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
+
+import AppLayout from '@cloudscape-design/components/app-layout';
+import ContentLayout from '@cloudscape-design/components/content-layout';
+import Header from '@cloudscape-design/components/header';
+
+const meta: Meta<typeof AppLayout> = {
+  title: 'Layout/AppLayout',
+  component: AppLayout,
+};
+
+export default meta;
+
+type Story = StoryObj<typeof AppLayout>;
+
+export const Default: Story = {
+  args: {
+    navigationHide: true,
+    toolsHide: true,
+    content: (
+      <ContentLayout header={<Header variant="h1">Page title</Header>}>
+        <p>Main page content goes here.</p>
+      </ContentLayout>
+    ),
+  },
+};

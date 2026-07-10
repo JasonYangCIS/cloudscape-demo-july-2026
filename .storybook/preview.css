@@ -10,3 +10,7 @@
 .back-to-dashboard-link:hover {
   text-decoration: underline;
 }
+
+.story-narrow-container {
+  width: 200px;
+}
