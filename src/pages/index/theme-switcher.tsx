@@ -26,7 +26,7 @@ const THEME_OPTIONS: { value: ThemeId; label: string; description: string }[] = 
 const creativeTheme: Theme = {
   tokens: {
     colorBackgroundLayoutMain: '#fdf3ff',
-    colorBackgroundContainerContent: '#ffffff',
+    colorBackgroundContainerContent: '#fff3fb',
     colorBackgroundButtonPrimaryDefault: '#ff3d81',
     colorBackgroundButtonPrimaryHover: '#e91e78',
     colorBackgroundButtonPrimaryActive: '#c2185b',
@@ -88,7 +88,7 @@ function applyThemeId(themeId: ThemeId) {
     resetCreativeTheme();
     resetCreativeTheme = null;
   }
-  applyMode(themeId === 'dark' ? Mode.Dark : Mode.Light, document.documentElement);
+  applyMode(themeId === 'dark' ? Mode.Dark : Mode.Light, document.body);
   if (themeId === 'creative') {
     loadCreativeFonts();
     resetCreativeTheme = applyTheme({ theme: creativeTheme }).reset;

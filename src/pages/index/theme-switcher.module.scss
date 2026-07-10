@@ -6,3 +6,16 @@
   border-radius: 50%;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
+
+// Theme button-padding tokens (e.g. the creative theme) can differ between
+// horizontal and vertical, which turns an icon-only button oval. Force a
+// fixed circular hit area here regardless of the active theme.
+.theme-switcher :global(button) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+}
