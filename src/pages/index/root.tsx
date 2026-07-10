@@ -20,6 +20,7 @@ import { createTableSortLabelFn, getHeaderCounterText, getTextFilterCounterText,
 import { Breadcrumbs } from '../commons/breadcrumbs';
 import { CustomAppLayout, TableEmptyState, TableNoMatchState } from '../commons/common-components';
 import DataProvider from '../commons/data-provider';
+import { ThemeSwitcher } from './theme-switcher';
 
 import '../../styles/base.scss';
 
@@ -210,12 +211,15 @@ function CommitsDashboard() {
 
 export function App() {
   return (
-    <CustomAppLayout
-      navigationHide={true}
-      toolsHide={true}
-      breadcrumbs={<Breadcrumbs items={[{ text: 'Commits', href: '#' }]} />}
-      content={<CommitsDashboard />}
-      contentType="default"
-    />
+    <>
+      <CustomAppLayout
+        navigationHide={true}
+        toolsHide={true}
+        breadcrumbs={<Breadcrumbs items={[{ text: 'Commits', href: '#' }]} />}
+        content={<CommitsDashboard />}
+        contentType="default"
+      />
+      <ThemeSwitcher />
+    </>
   );
 }
