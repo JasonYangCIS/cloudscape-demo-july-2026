@@ -7,6 +7,7 @@ import DataProvider from '../commons/data-provider';
 import { Breadcrumbs } from '../commons/breadcrumbs';
 import { CustomAppLayout } from '../commons/common-components';
 import { CommitsDashboard } from './commits-dashboard';
+import { ThemeSwitcher } from './theme-switcher';
 
 import '../../styles/base.scss';
 
@@ -18,12 +19,15 @@ export function App() {
   }, []);
 
   return (
-    <CustomAppLayout
-      navigationHide={true}
-      toolsHide={true}
-      breadcrumbs={<Breadcrumbs items={[{ text: 'Commits dashboard', href: '#' }]} />}
-      content={<CommitsDashboard commits={commits} />}
-      contentType="default"
-    />
+    <>
+      <CustomAppLayout
+        navigationHide={true}
+        toolsHide={true}
+        breadcrumbs={<Breadcrumbs items={[{ text: 'Commits dashboard', href: '#' }]} />}
+        content={<CommitsDashboard commits={commits} />}
+        contentType="default"
+      />
+      <ThemeSwitcher />
+    </>
   );
 }
