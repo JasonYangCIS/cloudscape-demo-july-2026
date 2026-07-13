@@ -37,8 +37,8 @@ function IntroContent() {
           <Box variant="p">
             Full step-by-step instructions for this workshop are on the workshop site:
           </Box>
-          <Link external={true} href="https://wdc-seattle-2026.vercel.app/">
-            wdc-seattle-2026.vercel.app
+          <Link external={true} href="https://wdc-seattle-2026.builder.cloud/">
+            wdc-seattle-2026.builder.cloud
           </Link>
         </SpaceBetween>
       </Container>
