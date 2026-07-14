@@ -104,11 +104,10 @@ export default function CommitsDashboard() {
               yTitle="Commits"
               height={300}
               fitHeight={true}
+              hideFilter={true}
               ariaLabel="Commits per day by repository"
               ariaDescription="Area chart comparing daily commit counts for the two most active repositories against the average daily commit count."
               i18nStrings={{
-                filterLabel: 'Filter displayed data',
-                filterPlaceholder: 'Filter data',
                 legendAriaLabel: 'Legend',
                 detailTotalLabel: 'Total',
               }}
