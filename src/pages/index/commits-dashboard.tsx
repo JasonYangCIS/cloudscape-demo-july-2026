@@ -19,8 +19,9 @@ import { Commit } from '../../fake-server/types';
 import { TableEmptyState, TableNoMatchState } from '../commons/common-components';
 import DataProvider from '../commons/data-provider';
 import { buildAuthorCommitSeries, buildDailyRepoAreaSeries, DateRange, filterCommitsByRange } from './chart-data';
-import * as styles from './commits-dashboard.module.scss';
 import { COMMITS_COLUMN_DEFINITIONS } from './table-config';
+
+import * as styles from './commits-dashboard.module.scss';
 
 const PAGE_SIZE_OPTIONS = [
   { value: 10, label: '10 commits' },
@@ -39,7 +40,10 @@ export default function CommitsDashboard() {
 
   const rangeCommits = useMemo(() => filterCommitsByRange(commits, range), [commits, range]);
   const { series: areaSeries } = useMemo(() => buildDailyRepoAreaSeries(rangeCommits), [rangeCommits]);
-  const { series: barSeries, xDomain: authorDomain } = useMemo(() => buildAuthorCommitSeries(rangeCommits), [rangeCommits]);
+  const { series: barSeries, xDomain: authorDomain } = useMemo(
+    () => buildAuthorCommitSeries(rangeCommits),
+    [rangeCommits],
+  );
 
   const { items, actions, filteredItemsCount, collectionProps, filterProps, paginationProps } = useCollection(
     rangeCommits,

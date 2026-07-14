@@ -9,11 +9,6 @@ import '../../styles/base.scss';
 
 export function App() {
   return (
-    <CustomAppLayout
-      navigationHide={true}
-      toolsHide={true}
-      content={<CommitsDashboard />}
-      contentType="default"
-    />
+    <CustomAppLayout navigationHide={true} toolsHide={true} content={<CommitsDashboard />} contentType="default" />
   );
 }

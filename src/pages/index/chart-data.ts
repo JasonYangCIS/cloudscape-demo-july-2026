@@ -33,7 +33,9 @@ export function buildDailyRepoAreaSeries(commits: Commit[]) {
 
   const days = [...new Set(commits.map(commit => startOfDay(commit.date)))].sort((a, b) => a - b);
 
-  const countsByRepo = new Map<string, Map<number, number>>(topRepos.map(repo => [repo, new Map(days.map(d => [d, 0]))]));
+  const countsByRepo = new Map<string, Map<number, number>>(
+    topRepos.map(repo => [repo, new Map(days.map(d => [d, 0]))]),
+  );
   const totalsByDay = new Map<number, number>(days.map(d => [d, 0]));
 
   commits.forEach(commit => {
