@@ -9,7 +9,6 @@ import Box from '@cloudscape-design/components/box';
 import Button from '@cloudscape-design/components/button';
 import CollectionPreferences from '@cloudscape-design/components/collection-preferences';
 import Container from '@cloudscape-design/components/container';
-import Grid from '@cloudscape-design/components/grid';
 import Header from '@cloudscape-design/components/header';
 import Pagination from '@cloudscape-design/components/pagination';
 import SpaceBetween from '@cloudscape-design/components/space-between';
@@ -95,40 +94,46 @@ export default function CommitsDashboard() {
         </SpaceBetween>
       </div>
 
-      <Grid gridDefinition={[{ colspan: { default: 12, xs: 6 } }, { colspan: { default: 12, xs: 6 } }]}>
-        <Container>
-          <AreaChart
-            series={areaSeries}
-            xScaleType="time"
-            xTitle="Date"
-            yTitle="Commits"
-            height={300}
-            ariaLabel="Commits per day by repository"
-            ariaDescription="Area chart comparing daily commit counts for the two most active repositories against the average daily commit count."
-            i18nStrings={{
-              filterLabel: 'Filter displayed data',
-              filterPlaceholder: 'Filter data',
-              legendAriaLabel: 'Legend',
-              detailTotalLabel: 'Total',
-            }}
-            empty={<Box textAlign="center">No commit data available</Box>}
-          />
-        </Container>
-        <Container>
-          <BarChart
-            series={barSeries}
-            xDomain={authorDomain}
-            xScaleType="categorical"
-            xTitle="Author"
-            yTitle="Commits"
-            height={300}
-            hideFilter={true}
-            ariaLabel="Commits by author"
-            ariaDescription="Bar chart showing the number of commits per top contributing author."
-            empty={<Box textAlign="center">No commit data available</Box>}
-          />
-        </Container>
-      </Grid>
+      <div className={styles.chartsRow}>
+        <div className={styles.chartCard}>
+          <Container fitHeight={true}>
+            <AreaChart
+              series={areaSeries}
+              xScaleType="time"
+              xTitle="Date"
+              yTitle="Commits"
+              height={300}
+              fitHeight={true}
+              ariaLabel="Commits per day by repository"
+              ariaDescription="Area chart comparing daily commit counts for the two most active repositories against the average daily commit count."
+              i18nStrings={{
+                filterLabel: 'Filter displayed data',
+                filterPlaceholder: 'Filter data',
+                legendAriaLabel: 'Legend',
+                detailTotalLabel: 'Total',
+              }}
+              empty={<Box textAlign="center">No commit data available</Box>}
+            />
+          </Container>
+        </div>
+        <div className={styles.chartCard}>
+          <Container fitHeight={true}>
+            <BarChart
+              series={barSeries}
+              xDomain={authorDomain}
+              xScaleType="categorical"
+              xTitle="Author"
+              yTitle="Commits"
+              height={300}
+              fitHeight={true}
+              hideFilter={true}
+              ariaLabel="Commits by author"
+              ariaDescription="Bar chart showing the number of commits per top contributing author."
+              empty={<Box textAlign="center">No commit data available</Box>}
+            />
+          </Container>
+        </div>
+      </div>
 
       <Table
         {...collectionProps}
