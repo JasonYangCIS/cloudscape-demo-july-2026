@@ -17,6 +17,7 @@ import TextFilter from '@cloudscape-design/components/text-filter';
 import { Commit } from '../../fake-server/types';
 import { TableEmptyState, TableNoMatchState } from '../commons/common-components';
 import { DateRange, filterCommitsByRange, getCommitActivitySeries, getCommitsByRepoSeries } from './chart-data';
+import { GalaxyVisualization } from './galaxy-visualization';
 import { COMMIT_COLUMN_DEFINITIONS, DEFAULT_PAGE_SIZE } from './table-config';
 
 const dateColumn = COMMIT_COLUMN_DEFINITIONS.find(column => column.id === 'date')!;
@@ -67,6 +68,8 @@ export function CommitsDashboard({ commits }: CommitsDashboardProps) {
       >
         Commits dashboard
       </Header>
+
+      <GalaxyVisualization commits={rangeFilteredCommits} />
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <div style={{ flex: '1 1 auto' }}>
