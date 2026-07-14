@@ -32,3 +32,24 @@
   pointer-events: none;
   transform: translate(-50%, -110%);
 }
+
+.legendDot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: cs.$space-scaled-xxs;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.legendDotPassed {
+  background-color: #37d67a;
+}
+
+.legendDotFailed {
+  background-color: #ff6961;
+}
+
+.legendDotPending {
+  background-color: #ffcc4d;
+}

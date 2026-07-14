@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import Badge from '@cloudscape-design/components/badge';
 import Box from '@cloudscape-design/components/box';
@@ -25,6 +26,12 @@ const STATUS_TYPES: Record<Commit['status'], StatusIndicatorProps.Type> = {
   Failed: 'error',
   Pending: 'pending',
 };
+
+const LEGEND_ITEMS: { status: Commit['status']; dotClass: string }[] = [
+  { status: 'Passed', dotClass: styles.legendDotPassed },
+  { status: 'Failed', dotClass: styles.legendDotFailed },
+  { status: 'Pending', dotClass: styles.legendDotPending },
+];
 
 interface HoveredCommit {
   commit: Commit;
@@ -111,7 +118,18 @@ export function GalaxyVisualization({ commits }: GalaxyVisualizationProps) {
 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.domElement.style.cursor = 'grab';
     container.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.enablePan = false;
+    controls.enableZoom = false;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.6;
+    controls.minPolarAngle = Math.PI / 4;
+    controls.maxPolarAngle = Math.PI - Math.PI / 4;
 
     const geometry = buildGalaxyGeometry(commits);
     const material = new THREE.PointsMaterial({
@@ -128,8 +146,14 @@ export function GalaxyVisualization({ commits }: GalaxyVisualizationProps) {
     const raycaster = new THREE.Raycaster();
     raycaster.params.Points = { threshold: 0.2 };
     const pointer = new THREE.Vector2();
+    let isDragging = false;
 
     const handlePointerMove = (event: PointerEvent) => {
+      if (isDragging) {
+        setHovered(null);
+        return;
+      }
+
       const rect = renderer.domElement.getBoundingClientRect();
       pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -141,22 +165,35 @@ export function GalaxyVisualization({ commits }: GalaxyVisualizationProps) {
         renderer.domElement.style.cursor = 'pointer';
         setHovered({ commit, x: event.clientX - rect.left, y: event.clientY - rect.top });
       } else {
-        renderer.domElement.style.cursor = 'default';
+        renderer.domElement.style.cursor = 'grab';
         setHovered(null);
       }
     };
 
     const handlePointerLeave = () => {
-      renderer.domElement.style.cursor = 'default';
+      renderer.domElement.style.cursor = 'grab';
       setHovered(null);
+    };
+
+    const handlePointerDown = () => {
+      isDragging = true;
+      renderer.domElement.style.cursor = 'grabbing';
+      setHovered(null);
+    };
+
+    const handlePointerUp = () => {
+      isDragging = false;
+      renderer.domElement.style.cursor = 'grab';
     };
 
     renderer.domElement.addEventListener('pointermove', handlePointerMove);
     renderer.domElement.addEventListener('pointerleave', handlePointerLeave);
+    renderer.domElement.addEventListener('pointerdown', handlePointerDown);
+    window.addEventListener('pointerup', handlePointerUp);
 
     let animationFrame: number;
     const animate = () => {
-      points.rotation.y += 0.0015;
+      controls.update();
       renderer.render(scene, camera);
       animationFrame = requestAnimationFrame(animate);
     };
@@ -178,6 +215,9 @@ export function GalaxyVisualization({ commits }: GalaxyVisualizationProps) {
       resizeObserver.disconnect();
       renderer.domElement.removeEventListener('pointermove', handlePointerMove);
       renderer.domElement.removeEventListener('pointerleave', handlePointerLeave);
+      renderer.domElement.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('pointerup', handlePointerUp);
+      controls.dispose();
       geometry.dispose();
       material.map?.dispose();
       material.dispose();
@@ -191,14 +231,14 @@ export function GalaxyVisualization({ commits }: GalaxyVisualizationProps) {
       header={
         <Header
           variant="h2"
-          description="Each star is a commit, arranged into a spiral galaxy by recency and colored by build status."
+          description="Each star is a commit, arranged into a spiral galaxy by recency and colored by build status. Drag to rotate."
           actions={<Badge color="severity-neutral">Experimental</Badge>}
         >
           Commit galaxy
         </Header>
       }
     >
-      <Box>
+      <SpaceBetween size="s">
         <div className={styles.galaxyWrapper}>
           {renderError ? (
             <div className={styles.galaxyCanvas}>
@@ -230,7 +270,21 @@ export function GalaxyVisualization({ commits }: GalaxyVisualizationProps) {
             </div>
           )}
         </div>
-      </Box>
+
+        <SpaceBetween size="xs">
+          <SpaceBetween size="l" direction="horizontal">
+            {LEGEND_ITEMS.map(item => (
+              <span key={item.status}>
+                <span className={`${styles.legendDot} ${item.dotClass}`} />
+                {item.status}
+              </span>
+            ))}
+          </SpaceBetween>
+          <Box color="text-body-secondary" fontSize="body-s">
+            Stars near the center are the most recent commits; stars further out are older. Hover a star for details.
+          </Box>
+        </SpaceBetween>
+      </SpaceBetween>
     </Container>
   );
 }
