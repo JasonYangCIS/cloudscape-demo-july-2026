@@ -2,6 +2,10 @@
 // SPDX-License-Identifier: MIT-0
 @use '~@cloudscape-design/design-tokens' as cs;
 
+.galaxyWrapper {
+  position: relative;
+}
+
 .galaxyCanvas {
   display: flex;
   align-items: center;
@@ -15,4 +19,16 @@
   @media (max-width: 688px) {
     height: 220px;
   }
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1;
+  max-width: 240px;
+  padding: cs.$space-scaled-xs cs.$space-scaled-s;
+  border-radius: cs.$border-radius-item;
+  background: cs.$color-background-container-content;
+  box-shadow: cs.$shadow-container-active;
+  pointer-events: none;
+  transform: translate(-50%, -110%);
 }

@@ -7,7 +7,8 @@ import Badge from '@cloudscape-design/components/badge';
 import Box from '@cloudscape-design/components/box';
 import Container from '@cloudscape-design/components/container';
 import Header from '@cloudscape-design/components/header';
-import StatusIndicator from '@cloudscape-design/components/status-indicator';
+import SpaceBetween from '@cloudscape-design/components/space-between';
+import StatusIndicator, { StatusIndicatorProps } from '@cloudscape-design/components/status-indicator';
 
 import { Commit } from '../../fake-server/types';
 
@@ -18,6 +19,18 @@ const STATUS_COLORS: Record<Commit['status'], THREE.Color> = {
   Failed: new THREE.Color('#ff6961'),
   Pending: new THREE.Color('#ffcc4d'),
 };
+
+const STATUS_TYPES: Record<Commit['status'], StatusIndicatorProps.Type> = {
+  Passed: 'success',
+  Failed: 'error',
+  Pending: 'pending',
+};
+
+interface HoveredCommit {
+  commit: Commit;
+  x: number;
+  y: number;
+}
 
 function createStarTexture(): THREE.Texture {
   const size = 64;
@@ -75,6 +88,7 @@ export interface GalaxyVisualizationProps {
 export function GalaxyVisualization({ commits }: GalaxyVisualizationProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [renderError, setRenderError] = useState(false);
+  const [hovered, setHovered] = useState<HoveredCommit | null>(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -111,6 +125,35 @@ export function GalaxyVisualization({ commits }: GalaxyVisualizationProps) {
     const points = new THREE.Points(geometry, material);
     scene.add(points);
 
+    const raycaster = new THREE.Raycaster();
+    raycaster.params.Points = { threshold: 0.2 };
+    const pointer = new THREE.Vector2();
+
+    const handlePointerMove = (event: PointerEvent) => {
+      const rect = renderer.domElement.getBoundingClientRect();
+      pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(pointer, camera);
+
+      const [hit] = raycaster.intersectObject(points);
+      const commit = hit?.index !== undefined ? commits[hit.index] : undefined;
+      if (commit) {
+        renderer.domElement.style.cursor = 'pointer';
+        setHovered({ commit, x: event.clientX - rect.left, y: event.clientY - rect.top });
+      } else {
+        renderer.domElement.style.cursor = 'default';
+        setHovered(null);
+      }
+    };
+
+    const handlePointerLeave = () => {
+      renderer.domElement.style.cursor = 'default';
+      setHovered(null);
+    };
+
+    renderer.domElement.addEventListener('pointermove', handlePointerMove);
+    renderer.domElement.addEventListener('pointerleave', handlePointerLeave);
+
     let animationFrame: number;
     const animate = () => {
       points.rotation.y += 0.0015;
@@ -133,6 +176,8 @@ export function GalaxyVisualization({ commits }: GalaxyVisualizationProps) {
     return () => {
       cancelAnimationFrame(animationFrame);
       resizeObserver.disconnect();
+      renderer.domElement.removeEventListener('pointermove', handlePointerMove);
+      renderer.domElement.removeEventListener('pointerleave', handlePointerLeave);
       geometry.dispose();
       material.map?.dispose();
       material.dispose();
@@ -154,15 +199,37 @@ export function GalaxyVisualization({ commits }: GalaxyVisualizationProps) {
       }
     >
       <Box>
-        {renderError ? (
-          <div className={styles.galaxyCanvas}>
-            <Box textAlign="center" padding="l">
-              <StatusIndicator type="warning">3D preview unavailable: WebGL is not supported here</StatusIndicator>
-            </Box>
-          </div>
-        ) : (
-          <div ref={containerRef} className={styles.galaxyCanvas} />
-        )}
+        <div className={styles.galaxyWrapper}>
+          {renderError ? (
+            <div className={styles.galaxyCanvas}>
+              <Box textAlign="center" padding="l">
+                <StatusIndicator type="warning">3D preview unavailable: WebGL is not supported here</StatusIndicator>
+              </Box>
+            </div>
+          ) : (
+            <div ref={containerRef} className={styles.galaxyCanvas} />
+          )}
+          {hovered && (
+            <div className={styles.tooltip} style={{ left: hovered.x, top: hovered.y }}>
+              <SpaceBetween size="xxs">
+                <Box fontWeight="bold">
+                  {hovered.commit.repo} ({hovered.commit.branch})
+                </Box>
+                <Box>{hovered.commit.message}</Box>
+                <StatusIndicator type={STATUS_TYPES[hovered.commit.status]}>{hovered.commit.status}</StatusIndicator>
+                <Box color="text-body-secondary" fontSize="body-s">
+                  {hovered.commit.author}, {hovered.commit.id},{' '}
+                  {hovered.commit.date.toLocaleString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                  })}
+                </Box>
+              </SpaceBetween>
+            </div>
+          )}
+        </div>
       </Box>
     </Container>
   );
