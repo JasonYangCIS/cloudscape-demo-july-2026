@@ -73,7 +73,7 @@ export default function CommitsDashboard() {
           </SpaceBetween>
         }
       >
-        Code commits
+        CODE CHECKER DASHBOARD
       </Header>
 
       <div className={styles.searchRow}>
