@@ -99,6 +99,17 @@ const createWebpackConfig = (base, { includeDevServer }) => {
               },
             },
             port: config.devServerPort,
+            // Behind a reverse proxy/tunnel the injected host/port do not match the
+            // public URL the browser uses, so derive the HMR websocket URL from
+            // window.location instead of the server-side host/port.
+            client: {
+              webSocketURL: 'auto://0.0.0.0:0/ws',
+              overlay: {
+                // Benign browser warning from chart/table resize handling, not an
+                // application error, so do not surface it as a blocking overlay.
+                runtimeErrors: error => !error.message.includes('ResizeObserver loop completed'),
+              },
+            },
             proxy: [
               {
                 context: ['/storybook'],
