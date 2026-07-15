@@ -19,6 +19,7 @@ import { getHeaderCounterText, getTextFilterCounterText } from '../../i18n-strin
 import { CustomAppLayout, TableEmptyState, TableNoMatchState } from '../commons/common-components';
 import { CommitsAreaChart, CommitsBarChart } from './charts';
 import { COLUMN_DEFINITIONS } from './table-config';
+import { ThemeSwitcher } from './theme-switcher';
 
 import '../../styles/base.scss';
 import * as styles from './styles.module.scss';
@@ -129,21 +130,24 @@ export interface AppProps {
 
 export function App({ commits }: AppProps) {
   return (
-    <CustomAppLayout
-      navigationHide={true}
-      toolsHide={true}
-      breadcrumbs={
-        <BreadcrumbGroup
-          items={[
-            { text: 'Workshop', href: '#' },
-            { text: 'Commits dashboard', href: '#' },
-          ]}
-          expandAriaLabel="Show path"
-          ariaLabel="Breadcrumbs"
-        />
-      }
-      content={<CommitsDashboardContent commits={commits} />}
-      contentType="default"
-    />
+    <>
+      <CustomAppLayout
+        navigationHide={true}
+        toolsHide={true}
+        breadcrumbs={
+          <BreadcrumbGroup
+            items={[
+              { text: 'Workshop', href: '#' },
+              { text: 'Commits dashboard', href: '#' },
+            ]}
+            expandAriaLabel="Show path"
+            ariaLabel="Breadcrumbs"
+          />
+        }
+        content={<CommitsDashboardContent commits={commits} />}
+        contentType="default"
+      />
+      <ThemeSwitcher />
+    </>
   );
 }
