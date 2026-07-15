@@ -28,6 +28,7 @@ import {
   COMMITS_PAGE_SIZE_OPTIONS,
   DEFAULT_COMMITS_PREFERENCES,
 } from './commits-table-config';
+import { ThemePicker } from './theme-picker';
 
 import '../../styles/base.scss';
 
@@ -170,11 +171,14 @@ export function App() {
   }, []);
 
   return (
-    <CustomAppLayout
-      navigationHide={true}
-      toolsHide={true}
-      content={<CommitsDashboardContent commits={commits} />}
-      contentType="default"
-    />
+    <>
+      <CustomAppLayout
+        navigationHide={true}
+        toolsHide={true}
+        content={<CommitsDashboardContent commits={commits} />}
+        contentType="default"
+      />
+      <ThemePicker />
+    </>
   );
 }
