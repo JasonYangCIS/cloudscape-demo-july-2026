@@ -17,6 +17,11 @@ body {
   box-shadow: cs.$shadow-container-active;
 }
 
+.commits-dashboard-header {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
 .commits-dashboard-toolbar {
   display: flex;
   flex-wrap: wrap;

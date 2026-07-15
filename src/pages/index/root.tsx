@@ -69,24 +69,26 @@ function DashboardContent({ commits }: DashboardContentProps) {
 
   return (
     <SpaceBetween size="l">
-      <Header
-        variant="h1"
-        description="Commit activity across all repositories, branches, and authors."
-        actions={
-          <SpaceBetween direction="horizontal" size="xs" alignItems="center">
-            <Link href="/storybook/" external={true} externalIconAriaLabel="Opens in a new tab">
-              View component stories
-            </Link>
-            {(Object.keys(PERIODS) as Period[]).map(key => (
-              <Button key={key} variant={period === key ? 'primary' : 'normal'} onClick={() => setPeriod(key)}>
-                {PERIODS[key].label}
-              </Button>
-            ))}
-          </SpaceBetween>
-        }
-      >
-        Commits dashboard
-      </Header>
+      <div className="commits-dashboard-header">
+        <Header
+          variant="h1"
+          description="Commit activity across all repositories, branches, and authors."
+          actions={
+            <SpaceBetween direction="horizontal" size="xs" alignItems="center">
+              <Link href="/storybook/" external={true} externalIconAriaLabel="Opens in a new tab">
+                View component stories
+              </Link>
+              {(Object.keys(PERIODS) as Period[]).map(key => (
+                <Button key={key} variant={period === key ? 'primary' : 'normal'} onClick={() => setPeriod(key)}>
+                  {PERIODS[key].label}
+                </Button>
+              ))}
+            </SpaceBetween>
+          }
+        >
+          Commits dashboard
+        </Header>
+      </div>
 
       <div className="commits-dashboard-toolbar">
         <TextFilter
