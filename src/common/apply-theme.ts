@@ -5,7 +5,7 @@ import { applyTheme } from '@cloudscape-design/components/theming';
 
 import * as localStorage from './local-storage';
 
-export type ThemeChoice = 'light' | 'dark' | 'cyberpunk';
+export type ThemeChoice = 'light' | 'dark' | 'cyberpunk' | 'terminal' | 'dracula';
 
 const STORAGE_KEY = 'Awsui-Theme-Preference';
 
@@ -30,6 +30,50 @@ const cyberpunkTokens = {
   borderRadiusInput: '4px',
 };
 
+// Retro green-phosphor CRT terminal look
+const terminalTokens = {
+  colorBackgroundLayoutMain: '#000000',
+  colorBackgroundContainerContent: '#001a00',
+  colorBackgroundContainerHeader: '#002200',
+  colorBackgroundLayoutPanel: '#000000',
+  colorTextHeadingDefault: '#00ff41',
+  colorTextBodyDefault: '#33ff33',
+  colorTextLinkDefault: '#00ff41',
+  colorTextAccent: '#00ff41',
+  colorBackgroundButtonPrimaryDefault: '#003300',
+  colorBorderButtonPrimaryDefault: '#00ff41',
+  colorTextButtonPrimaryDefault: '#00ff41',
+  colorBorderDividerDefault: '#004400',
+  colorBorderItemFocused: '#00ff41',
+  colorBorderInputFocused: '#00ff41',
+  borderRadiusContainer: '0px',
+  borderRadiusInput: '0px',
+};
+
+// Dracula IDE palette (https://draculatheme.com)
+const draculaTokens = {
+  colorBackgroundLayoutMain: '#282a36',
+  colorBackgroundContainerContent: '#282a36',
+  colorBackgroundContainerHeader: '#21222c',
+  colorBackgroundLayoutPanel: '#21222c',
+  colorTextHeadingDefault: '#bd93f9',
+  colorTextBodyDefault: '#f8f8f2',
+  colorTextLinkDefault: '#8be9fd',
+  colorTextAccent: '#ff79c6',
+  colorBackgroundButtonPrimaryDefault: '#bd93f9',
+  colorBorderButtonPrimaryDefault: '#ff79c6',
+  colorTextButtonPrimaryDefault: '#282a36',
+  colorBorderDividerDefault: '#44475a',
+  colorBorderItemFocused: '#8be9fd',
+  colorBorderInputFocused: '#8be9fd',
+};
+
+const themeTokens: Partial<Record<ThemeChoice, Record<string, string>>> = {
+  cyberpunk: cyberpunkTokens,
+  terminal: terminalTokens,
+  dracula: draculaTokens,
+};
+
 export function getInitialThemeChoice(): ThemeChoice {
   return localStorage.load<ThemeChoice>(STORAGE_KEY) ?? 'light';
 }
@@ -42,8 +86,9 @@ export function setThemeChoice(choice: ThemeChoice) {
 
   applyMode(choice === 'light' ? Mode.Light : Mode.Dark);
 
-  if (choice === 'cyberpunk') {
-    const { reset } = applyTheme({ theme: { tokens: cyberpunkTokens } });
+  const tokens = themeTokens[choice];
+  if (tokens) {
+    const { reset } = applyTheme({ theme: { tokens } });
     resetOverride = reset;
   }
 

@@ -34,6 +34,8 @@ export function ThemeSwitcher() {
                 { value: 'light', label: 'Light' },
                 { value: 'dark', label: 'Dark' },
                 { value: 'cyberpunk', label: 'Cyberpunk' },
+                { value: 'terminal', label: 'Terminal' },
+                { value: 'dracula', label: 'Dracula' },
               ]}
             />
           </div>
