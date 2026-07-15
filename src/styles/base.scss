@@ -7,6 +7,24 @@ body {
   position: relative;
 }
 
+.commits-dashboard-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: cs.$space-scaled-s;
+}
+
+.commits-dashboard-toolbar__filter {
+  flex: 1 1 320px;
+}
+
+.commits-dashboard-toolbar__pagination {
+  display: flex;
+  align-items: center;
+  gap: cs.$space-scaled-s;
+}
+
 .custom-main-header {
   display: block;
   position: sticky;
