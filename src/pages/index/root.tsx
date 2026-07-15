@@ -141,7 +141,10 @@ function CommitsDashboard({ commits }: CommitsDashboardProps) {
       </div>
 
       <div className={styles.chartsRow}>
-        <Container className={styles.chartContainer} header={<Header variant="h2">Daily commit activity</Header>}>
+        <Container
+          className={`${styles.chartContainer} ${styles.dailyActivityChart}`}
+          header={<Header variant="h2">Daily commit activity</Header>}
+        >
           <AreaChart
             series={areaSeries}
             xTitle="Date"

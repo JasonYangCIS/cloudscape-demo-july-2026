@@ -33,6 +33,10 @@
   min-width: 0;
 }
 
+.dailyActivityChart :global(.awsui_axis-label--y_f0fot_14ug1_161) {
+  color: rgba(18, 98, 202, 1);
+}
+
 .floatingThemeButton {
   position: fixed;
   inset-block-end: cs.$space-scaled-xl;
