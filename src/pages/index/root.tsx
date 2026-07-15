@@ -19,6 +19,7 @@ import { Commit } from '../../fake-server/types';
 import { Breadcrumbs } from '../commons';
 import { CustomAppLayout, TableEmptyState, TableNoMatchState } from '../commons/common-components';
 import DataProvider from '../commons/data-provider';
+import { ExternalLink } from '../commons/external-link';
 import { DateRange, filterCommitsByRange, getCommitsPerDayChart, getCommitsPerRepoChart } from './chart-data';
 import * as styles from './styles.module.scss';
 import { COMMITS_COLUMN_DEFINITIONS } from './table-config';
@@ -64,13 +65,16 @@ function CommitsDashboard() {
         variant="h1"
         description="Track commit activity across repositories, branches, and authors."
         actions={
-          <SpaceBetween direction="horizontal" size="xs">
-            <Button variant={dateRange === 'month' ? 'primary' : 'normal'} onClick={() => setDateRange('month')}>
-              Last Month
-            </Button>
-            <Button variant={dateRange === 'week' ? 'primary' : 'normal'} onClick={() => setDateRange('week')}>
-              Last Week
-            </Button>
+          <SpaceBetween direction="horizontal" size="l" alignItems="center">
+            <ExternalLink href="/storybook/">Storybook</ExternalLink>
+            <SpaceBetween direction="horizontal" size="xs">
+              <Button variant={dateRange === 'month' ? 'primary' : 'normal'} onClick={() => setDateRange('month')}>
+                Last Month
+              </Button>
+              <Button variant={dateRange === 'week' ? 'primary' : 'normal'} onClick={() => setDateRange('week')}>
+                Last Week
+              </Button>
+            </SpaceBetween>
           </SpaceBetween>
         }
       >

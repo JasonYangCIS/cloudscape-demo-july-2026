@@ -2,19 +2,14 @@
 // SPDX-License-Identifier: MIT-0
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Mode, applyMode } from '@cloudscape-design/global-styles';
-
 import Button from '@cloudscape-design/components/button';
 import Popover from '@cloudscape-design/components/popover';
 import SegmentedControl from '@cloudscape-design/components/segmented-control';
 import SpaceBetween from '@cloudscape-design/components/space-between';
-import { applyTheme } from '@cloudscape-design/components/theming';
 
 import * as localStorage from '../../common/local-storage';
-import { creativeTheme } from './creative-theme';
+import { ColorTheme, applyColorTheme } from './apply-color-theme';
 import * as styles from './theme-switcher.module.scss';
-
-type ColorTheme = 'light' | 'dark' | 'creative';
 
 const STORAGE_KEY = 'Awsui-Color-Theme-Preference';
 
@@ -24,16 +19,7 @@ export function ThemeSwitcher() {
 
   useEffect(() => {
     resetThemeRef.current?.();
-    resetThemeRef.current = null;
-
-    if (colorTheme === 'dark') {
-      applyMode(Mode.Dark);
-    } else if (colorTheme === 'creative') {
-      applyMode(Mode.Light);
-      resetThemeRef.current = applyTheme({ theme: creativeTheme }).reset;
-    } else {
-      applyMode(Mode.Light);
-    }
+    resetThemeRef.current = applyColorTheme(colorTheme);
   }, [colorTheme]);
 
   return (
