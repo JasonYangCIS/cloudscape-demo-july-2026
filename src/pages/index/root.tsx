@@ -29,6 +29,7 @@ import {
 } from './commits-table-config';
 
 import '../../styles/base.scss';
+import * as styles from './styles.module.scss';
 
 type DateRange = 'week' | 'month';
 
@@ -78,7 +79,11 @@ function DashboardContent({ commits }: { commits: Commit[] }) {
         description="Commit activity across repositories, branches, and authors."
         actions={
           <SpaceBetween direction="horizontal" size="xs">
-            <Button variant={dateRange === 'month' ? 'primary' : 'normal'} onClick={() => setDateRange('month')}>
+            <Button
+              className={styles.lastMonthButton}
+              variant={dateRange === 'month' ? 'primary' : 'normal'}
+              onClick={() => setDateRange('month')}
+            >
               Last Month
             </Button>
             <Button variant={dateRange === 'week' ? 'primary' : 'normal'} onClick={() => setDateRange('week')}>
