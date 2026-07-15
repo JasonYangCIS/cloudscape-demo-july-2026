@@ -29,7 +29,6 @@ import {
 } from './commits-table-config';
 
 import '../../styles/base.scss';
-import * as styles from './styles.module.scss';
 
 type DateRange = 'week' | 'month';
 
@@ -80,7 +79,6 @@ function DashboardContent({ commits }: { commits: Commit[] }) {
         actions={
           <SpaceBetween direction="horizontal" size="xs">
             <Button
-              className={styles.lastMonthButton}
               variant={dateRange === 'month' ? 'primary' : 'normal'}
               onClick={() => setDateRange('month')}
               nativeButtonAttributes={{ 'aria-pressed': dateRange === 'month' }}
