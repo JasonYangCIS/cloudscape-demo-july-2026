@@ -82,7 +82,8 @@ export function ThemeSwitcher() {
         header="Theme"
         dismissButton={false}
         position="top"
-        size="small"
+        size="medium"
+        fixedWidth={true}
         content={
           <SpaceBetween size="s">
             <SegmentedControl
