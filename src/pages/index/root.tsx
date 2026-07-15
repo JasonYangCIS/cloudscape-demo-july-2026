@@ -22,6 +22,7 @@ import DataProvider from '../commons/data-provider';
 import { DateRange, filterCommitsByRange, getCommitsPerDayChart, getCommitsPerRepoChart } from './chart-data';
 import * as styles from './styles.module.scss';
 import { COMMITS_COLUMN_DEFINITIONS } from './table-config';
+import { ThemeSwitcher } from './theme-switcher';
 
 import '../../styles/base.scss';
 
@@ -143,12 +144,15 @@ function CommitsDashboard() {
 
 export function App() {
   return (
-    <CustomAppLayout
-      navigationHide={true}
-      toolsHide={true}
-      breadcrumbs={<Breadcrumbs items={[{ text: 'Code commits dashboard', href: '#' }]} />}
-      content={<CommitsDashboard />}
-      contentType="default"
-    />
+    <>
+      <CustomAppLayout
+        navigationHide={true}
+        toolsHide={true}
+        breadcrumbs={<Breadcrumbs items={[{ text: 'Code commits dashboard', href: '#' }]} />}
+        content={<CommitsDashboard />}
+        contentType="default"
+      />
+      <ThemeSwitcher />
+    </>
   );
 }
