@@ -17,6 +17,7 @@ import { CustomAppLayout, TableEmptyState, TableNoMatchState } from '../commons/
 import DataProvider from '../commons/data-provider';
 import { CommitsPerDayChart, CommitsPerRepoChart } from './commits-charts';
 import { COLUMN_DEFINITIONS, DEFAULT_PREFERENCES, Preferences } from './commits-table-config';
+import { ThemeSwitcher } from './theme-switcher';
 
 import '../../styles/base.scss';
 import * as styles from './styles.module.scss';
@@ -55,6 +56,7 @@ function CommitsDashboardContent({ commits }: { commits: Commit[] }) {
 
   return (
     <SpaceBetween size="l">
+      <ThemeSwitcher />
       <Header
         variant="h1"
         description="Commit activity across repositories, branches, and authors."
