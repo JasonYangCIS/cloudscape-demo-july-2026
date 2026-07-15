@@ -14,7 +14,7 @@ import * as localStorage from '../../common/local-storage';
 
 import * as styles from './theme-switcher.module.scss';
 
-type ThemeId = 'light' | 'dark' | 'creative';
+export type ThemeId = 'light' | 'dark' | 'creative';
 
 const THEME_PREFERENCE_KEY = 'Awsui-Theme-Preference';
 
@@ -41,7 +41,7 @@ function loadCreativeFont() {
 
 let activeCreativeTheme: ApplyThemeResult | null = null;
 
-function applyDashboardTheme(theme: ThemeId) {
+export function applyDashboardTheme(theme: ThemeId) {
   if (activeCreativeTheme) {
     activeCreativeTheme.reset();
     activeCreativeTheme = null;

@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { useCollection } from '@cloudscape-design/collection-hooks';
+import Button from '@cloudscape-design/components/button';
 import Grid from '@cloudscape-design/components/grid';
 import Header from '@cloudscape-design/components/header';
 import Pagination from '@cloudscape-design/components/pagination';
@@ -27,7 +28,7 @@ const PERIOD_OPTIONS = [
   { id: 'week', text: 'Last Week' },
 ];
 
-function CommitsDashboardContent({ commits }: { commits: Commit[] }) {
+export function CommitsDashboardContent({ commits }: { commits: Commit[] }) {
   const [period, setPeriod] = useState<string>('week');
 
   const periodCommits = useMemo(() => {
@@ -61,12 +62,17 @@ function CommitsDashboardContent({ commits }: { commits: Commit[] }) {
         variant="h1"
         description="Commit activity across repositories, branches, and authors."
         actions={
-          <SegmentedControl
-            selectedId={period}
-            onChange={({ detail }) => setPeriod(detail.selectedId)}
-            label="Time period"
-            options={PERIOD_OPTIONS}
-          />
+          <SpaceBetween direction="horizontal" size="s" alignItems="center">
+            <Button href="/storybook/" iconName="external" iconAlign="right">
+              Storybook
+            </Button>
+            <SegmentedControl
+              selectedId={period}
+              onChange={({ detail }) => setPeriod(detail.selectedId)}
+              label="Time period"
+              options={PERIOD_OPTIONS}
+            />
+          </SpaceBetween>
         }
       >
         Commits dashboard
