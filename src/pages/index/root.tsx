@@ -10,6 +10,7 @@ import Button from '@cloudscape-design/components/button';
 import Container from '@cloudscape-design/components/container';
 import Grid from '@cloudscape-design/components/grid';
 import Header from '@cloudscape-design/components/header';
+import Link from '@cloudscape-design/components/link';
 import Pagination from '@cloudscape-design/components/pagination';
 import SpaceBetween from '@cloudscape-design/components/space-between';
 import Table from '@cloudscape-design/components/table';
@@ -72,7 +73,10 @@ function DashboardContent({ commits }: DashboardContentProps) {
         variant="h1"
         description="Commit activity across all repositories, branches, and authors."
         actions={
-          <SpaceBetween direction="horizontal" size="xs">
+          <SpaceBetween direction="horizontal" size="xs" alignItems="center">
+            <Link href="/storybook/" external={true} externalIconAriaLabel="Opens in a new tab">
+              View component stories
+            </Link>
             {(Object.keys(PERIODS) as Period[]).map(key => (
               <Button key={key} variant={period === key ? 'primary' : 'normal'} onClick={() => setPeriod(key)}>
                 {PERIODS[key].label}
