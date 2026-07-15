@@ -122,7 +122,6 @@ function CommitsDashboard() {
             yTitle="Commits"
             height={300}
             hideFilter={true}
-            hideLegend={true}
             ariaLabel="Commits per repository"
             ariaDescription="Bar chart showing the number of commits per repository."
           />
