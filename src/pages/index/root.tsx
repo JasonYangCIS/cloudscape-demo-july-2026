@@ -74,7 +74,7 @@ function CommitsDashboard() {
           </SpaceBetween>
         }
       >
-        Code commits dashboard
+        <span className={styles.pageTitle}>Commit Dashboard - Marketing Team</span>
       </Header>
 
       <div className={styles.controlsRow}>
