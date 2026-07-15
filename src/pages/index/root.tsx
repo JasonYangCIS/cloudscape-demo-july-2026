@@ -1,47 +1,142 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import Box from '@cloudscape-design/components/box';
+import { useCollection } from '@cloudscape-design/collection-hooks';
+import AreaChart from '@cloudscape-design/components/area-chart';
+import BarChart from '@cloudscape-design/components/bar-chart';
+import Button from '@cloudscape-design/components/button';
+import CollectionPreferences from '@cloudscape-design/components/collection-preferences';
+import ColumnLayout from '@cloudscape-design/components/column-layout';
 import Container from '@cloudscape-design/components/container';
 import Header from '@cloudscape-design/components/header';
-import Link from '@cloudscape-design/components/link';
+import Pagination from '@cloudscape-design/components/pagination';
 import SpaceBetween from '@cloudscape-design/components/space-between';
+import Table from '@cloudscape-design/components/table';
+import TextFilter from '@cloudscape-design/components/text-filter';
 
-import { CustomAppLayout } from '../commons/common-components';
+import { Commit } from '../../fake-server/types';
+import { Breadcrumbs } from '../commons';
+import { CustomAppLayout, TableEmptyState, TableNoMatchState } from '../commons/common-components';
+import DataProvider from '../commons/data-provider';
+import { DateRange, filterCommitsByRange, getCommitsPerDayChart, getCommitsPerRepoChart } from './chart-data';
+import * as styles from './styles.module.scss';
+import { COMMITS_COLUMN_DEFINITIONS } from './table-config';
 
 import '../../styles/base.scss';
 
-function IntroContent() {
+const PAGE_SIZE_OPTIONS = [
+  { value: 10, label: '10 commits' },
+  { value: 20, label: '20 commits' },
+  { value: 50, label: '50 commits' },
+];
+
+function CommitsDashboard() {
+  const [allCommits, setAllCommits] = useState<Commit[]>([]);
+  const [dateRange, setDateRange] = useState<DateRange>('week');
+  const [pageSize, setPageSize] = useState(10);
+
+  useEffect(() => {
+    new DataProvider().getDataWithDates<Commit>('commits').then(setAllCommits);
+  }, []);
+
+  const rangeFilteredCommits = useMemo(() => filterCommitsByRange(allCommits, dateRange), [allCommits, dateRange]);
+
+  const { items, actions, filteredItemsCount, collectionProps, filterProps, paginationProps } = useCollection(
+    rangeFilteredCommits,
+    {
+      filtering: {
+        empty: <TableEmptyState resourceName="Commit" />,
+        noMatch: <TableNoMatchState onClearFilter={() => actions.setFiltering('')} />,
+      },
+      pagination: { pageSize },
+      sorting: { defaultState: { sortingColumn: COMMITS_COLUMN_DEFINITIONS[9], isDescending: true } },
+    },
+  );
+
+  const commitsPerDay = useMemo(() => getCommitsPerDayChart(rangeFilteredCommits), [rangeFilteredCommits]);
+  const commitsPerRepo = useMemo(() => getCommitsPerRepoChart(rangeFilteredCommits), [rangeFilteredCommits]);
+
   return (
     <SpaceBetween size="l">
-      <Header variant="h1" description="Build a code commits dashboard with Cloudscape and Builder.io.">
-        Welcome to the workshop
+      <Header
+        variant="h1"
+        description="Track commit activity across repositories, branches, and authors."
+        actions={
+          <SpaceBetween direction="horizontal" size="xs">
+            <Button variant={dateRange === 'month' ? 'primary' : 'normal'} onClick={() => setDateRange('month')}>
+              Last Month
+            </Button>
+            <Button variant={dateRange === 'week' ? 'primary' : 'normal'} onClick={() => setDateRange('week')}>
+              Last Week
+            </Button>
+          </SpaceBetween>
+        }
+      >
+        Code commits dashboard
       </Header>
-      <Container header={<Header variant="h2">What you'll build</Header>}>
-        <SpaceBetween size="s">
-          <Box variant="p">
-            <b>1. A commits dashboard.</b> An area chart and a bar chart summarizing commit activity, and a table
-            listing individual commits. You'll turn a Figma design into working Cloudscape components, right on top
-            of this page.
-          </Box>
-          <Box variant="p">
-            <b>2. A custom theme.</b> Once the dashboard is working, you'll apply your own branding on top of these
-            same Cloudscape components using <Box variant="code">@cloudscape-design/components/theming</Box>, without
-            changing any component code.
-          </Box>
+
+      <div className={styles.controlsRow}>
+        <div className={styles.controlsRowFilter}>
+          <TextFilter
+            {...filterProps}
+            filteringAriaLabel="Find commits"
+            filteringPlaceholder="Find commits"
+            countText={`${filteredItemsCount ?? 0} matches`}
+          />
+        </div>
+        <SpaceBetween direction="horizontal" size="xs" alignItems="center">
+          <Pagination {...paginationProps} ariaLabels={{ paginationLabel: 'Commits pagination' }} />
+          <CollectionPreferences
+            title="Preferences"
+            confirmLabel="Confirm"
+            cancelLabel="Cancel"
+            preferences={{ pageSize }}
+            onConfirm={({ detail }) => setPageSize(detail.pageSize ?? 10)}
+            pageSizePreference={{ title: 'Page size', options: PAGE_SIZE_OPTIONS }}
+          />
         </SpaceBetween>
-      </Container>
-      <Container header={<Header variant="h2">How to get started</Header>}>
-        <SpaceBetween size="s">
-          <Box variant="p">
-            Full step-by-step instructions for this workshop are on the workshop site:
-          </Box>
-          <Link external={true} href="https://wdc-seattle-2026.builder.cloud/">
-            wdc-seattle-2026.builder.cloud
-          </Link>
-        </SpaceBetween>
-      </Container>
+      </div>
+
+      <ColumnLayout columns={2}>
+        <Container header={<Header variant="h2">Commits per day</Header>}>
+          <AreaChart
+            series={commitsPerDay.series}
+            xDomain={commitsPerDay.xDomain}
+            xScaleType="categorical"
+            xTitle="Day"
+            yTitle="Commits"
+            height={300}
+            hideFilter={true}
+            ariaLabel="Commits per day"
+            ariaDescription="Area chart comparing commits on the main branch against other branches, with a dashed line showing the average commits per day."
+          />
+        </Container>
+        <Container header={<Header variant="h2">Commits per repository</Header>}>
+          <BarChart
+            series={commitsPerRepo.series}
+            xDomain={commitsPerRepo.xDomain}
+            xScaleType="categorical"
+            xTitle="Repository"
+            yTitle="Commits"
+            height={300}
+            hideFilter={true}
+            hideLegend={true}
+            ariaLabel="Commits per repository"
+            ariaDescription="Bar chart showing the number of commits per repository."
+          />
+        </Container>
+      </ColumnLayout>
+
+      <Table
+        {...collectionProps}
+        columnDefinitions={COMMITS_COLUMN_DEFINITIONS}
+        items={items}
+        variant="container"
+        stickyHeader={true}
+        resizableColumns={true}
+        wrapLines={true}
+      />
     </SpaceBetween>
   );
 }
@@ -51,7 +146,8 @@ export function App() {
     <CustomAppLayout
       navigationHide={true}
       toolsHide={true}
-      content={<IntroContent />}
+      breadcrumbs={<Breadcrumbs items={[{ text: 'Code commits dashboard', href: '#' }]} />}
+      content={<CommitsDashboard />}
       contentType="default"
     />
   );
