@@ -153,7 +153,15 @@ function DashboardContent() {
 
   return (
     <SpaceBetween size="l">
-      <Header variant="h1" description="Track commit activity across repositories, branches, and authors.">
+      <Header
+        variant="h1"
+        description="Track commit activity across repositories, branches, and authors."
+        actions={
+          <Button href="/storybook/" target="_blank" iconName="external" iconAlign="right">
+            Open in Storybook
+          </Button>
+        }
+      >
         Code commits dashboard
       </Header>
       <SpaceBetween size="xs" direction="horizontal">

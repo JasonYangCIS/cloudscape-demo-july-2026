@@ -43,8 +43,7 @@ export function getCommitsPerDayByRepoSeries(commits: readonly Commit[]): AreaCh
     type: 'area',
     data: days.map(day => ({
       x: day,
-      y: commits.filter(commit => commit.repo === repo && startOfDay(commit.date).getTime() === day.getTime())
-        .length,
+      y: commits.filter(commit => commit.repo === repo && startOfDay(commit.date).getTime() === day.getTime()).length,
     })),
   }));
 
