@@ -48,15 +48,18 @@ const terminalTokens = {
   colorBorderInputFocused: '#00ff41',
   borderRadiusContainer: '0px',
   borderRadiusInput: '0px',
+  // Categorical 2 and 5 are lightened from earlier drafts (#0b6623/#1b3d1f) which fell to
+  // ~2.6:1 and ~1.5:1 contrast against the dark container background, below the 3:1 minimum
+  // WCAG 1.4.11 requires for graphical objects like chart fills.
   colorChartsPaletteCategorical1: '#39ff14',
-  colorChartsPaletteCategorical2: '#0b6623',
+  colorChartsPaletteCategorical2: '#1f9e4d',
   colorChartsPaletteCategorical3: '#a6ff9e',
   colorChartsPaletteCategorical4: '#00994d',
-  colorChartsPaletteCategorical5: '#1b3d1f',
+  colorChartsPaletteCategorical5: '#128a3f',
   colorChartsPaletteCategorical6: '#5ddc7c',
   colorChartsStatusPositive: '#39ff14',
   colorChartsStatusInfo: '#5ddc7c',
-  colorChartsStatusNeutral: '#0b6623',
+  colorChartsStatusNeutral: '#1f9e4d',
   colorChartsThresholdInfo: '#adff2f',
   colorChartsThresholdPositive: '#adff2f',
   colorChartsThresholdNeutral: '#adff2f',

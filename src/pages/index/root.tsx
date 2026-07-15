@@ -83,13 +83,24 @@ function DashboardContent({ commits }: { commits: Commit[] }) {
               className={styles.lastMonthButton}
               variant={dateRange === 'month' ? 'primary' : 'normal'}
               onClick={() => setDateRange('month')}
+              nativeButtonAttributes={{ 'aria-pressed': dateRange === 'month' }}
             >
               Last Month
             </Button>
-            <Button variant={dateRange === 'week' ? 'primary' : 'normal'} onClick={() => setDateRange('week')}>
+            <Button
+              variant={dateRange === 'week' ? 'primary' : 'normal'}
+              onClick={() => setDateRange('week')}
+              nativeButtonAttributes={{ 'aria-pressed': dateRange === 'week' }}
+            >
               Last Week
             </Button>
-            <Button iconName="external" iconAlign="right" href="/storybook/" target="_blank">
+            <Button
+              iconName="external"
+              iconAlign="right"
+              href="/storybook/"
+              target="_blank"
+              ariaLabel="Component stories (opens in a new tab)"
+            >
               Component stories
             </Button>
           </SpaceBetween>

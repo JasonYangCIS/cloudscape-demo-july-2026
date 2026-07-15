@@ -1,6 +1,10 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 
+// Background color set here on a visual edit request; text color is forced to
+// white alongside it so the pairing keeps AA contrast (~5.2:1) in both the
+// selected (primary) and unselected (normal) button variants.
 .lastMonthButton {
   background-color: rgba(208, 2, 27, 1) !important;
+  color: #ffffff !important;
 }
