@@ -19,6 +19,7 @@ import { getHeaderCounterText, getTextFilterCounterText } from '../../i18n-strin
 import { CustomAppLayout, TableEmptyState, TableNoMatchState } from '../commons/common-components';
 import DataProvider from '../commons/data-provider';
 import { filterCommitsByDays, getCommitsPerAuthorSeries, getCommitsPerDayByRepoSeries } from './dashboard-data';
+import { ThemeSwitcher } from './theme-switcher';
 
 import '../../styles/base.scss';
 
@@ -34,9 +35,7 @@ const STATUS_TYPE: Record<Commit['status'], StatusIndicatorProps.Type> = {
 };
 
 function dateFormatter(date: Date | null) {
-  return date
-    ? date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-    : '';
+  return date ? date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
 }
 
 function CommitsCharts({ commits }: { commits: Commit[] }) {
@@ -107,19 +106,16 @@ const COLUMN_DEFINITIONS: TableProps.ColumnDefinition<Commit>[] = [
 ];
 
 function CommitsTable({ commits }: { commits: Commit[] }) {
-  const { items, actions, filteredItemsCount, collectionProps, filterProps, paginationProps } = useCollection(
-    commits,
-    {
-      filtering: {
-        empty: <TableEmptyState resourceName="Commit" />,
-        noMatch: <TableNoMatchState onClearFilter={() => actions.setFiltering('')} />,
-      },
-      pagination: { pageSize: 10 },
-      sorting: {
-        defaultState: { sortingColumn: COLUMN_DEFINITIONS[COLUMN_DEFINITIONS.length - 1], isDescending: true },
-      },
+  const { items, actions, filteredItemsCount, collectionProps, filterProps, paginationProps } = useCollection(commits, {
+    filtering: {
+      empty: <TableEmptyState resourceName="Commit" />,
+      noMatch: <TableNoMatchState onClearFilter={() => actions.setFiltering('')} />,
     },
-  );
+    pagination: { pageSize: 10 },
+    sorting: {
+      defaultState: { sortingColumn: COLUMN_DEFINITIONS[COLUMN_DEFINITIONS.length - 1], isDescending: true },
+    },
+  });
 
   return (
     <Table
@@ -179,11 +175,9 @@ function DashboardContent() {
 
 export function App() {
   return (
-    <CustomAppLayout
-      navigationHide={true}
-      toolsHide={true}
-      content={<DashboardContent />}
-      contentType="default"
-    />
+    <>
+      <CustomAppLayout navigationHide={true} toolsHide={true} content={<DashboardContent />} contentType="default" />
+      <ThemeSwitcher />
+    </>
   );
 }
