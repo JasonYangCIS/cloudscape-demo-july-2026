@@ -8,6 +8,10 @@ body {
   position: relative;
 }
 
+.dashboard-heading h1 {
+  font-size: 28px;
+}
+
 .theme-switcher {
   position: fixed;
   right: cs.$space-static-l;

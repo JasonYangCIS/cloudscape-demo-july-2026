@@ -79,6 +79,7 @@ function DashboardContent({ commits }: { commits: Commit[] }) {
     <SpaceBetween size="l">
       <Header
         variant="h1"
+        className="dashboard-heading"
         description="Recent commit activity across your repositories."
         counter={`(${commits.length})`}
         actions={
