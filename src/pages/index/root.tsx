@@ -165,15 +165,24 @@ function DashboardContent() {
         Code commits dashboard
       </Header>
       <SpaceBetween size="xs" direction="horizontal">
-        {PERIOD_OPTIONS.map(option => (
-          <Button
-            key={option.value}
-            variant={periodDays === option.value ? 'primary' : 'normal'}
-            onClick={() => setPeriodDays(option.value)}
-          >
-            {option.label}
-          </Button>
-        ))}
+        {PERIOD_OPTIONS.map(option => {
+          const button = (
+            <Button
+              variant={periodDays === option.value ? 'primary' : 'normal'}
+              onClick={() => setPeriodDays(option.value)}
+              style={option.value === 12 ? { root: { background: { default: 'rgba(0, 102, 52, 1)' } } } : undefined}
+            >
+              {option.label}
+            </Button>
+          );
+          return option.value === 12 ? (
+            <div key={option.value} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+              {button}
+            </div>
+          ) : (
+            <React.Fragment key={option.value}>{button}</React.Fragment>
+          );
+        })}
       </SpaceBetween>
       <CommitsCharts commits={commits} />
       <CommitsTable commits={commits} />
