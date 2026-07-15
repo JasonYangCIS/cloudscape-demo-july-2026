@@ -85,7 +85,7 @@ function CommitsDashboardContent({ commits }: CommitsDashboardContentProps) {
           </SpaceBetween>
         }
       >
-        Commits dashboard
+        Commits dashboard @trinhxt
       </Header>
 
       <div className={styles.toolbar}>
