@@ -89,6 +89,9 @@ function DashboardContent({ commits }: { commits: Commit[] }) {
             <Button variant={timeRange === 'week' ? 'primary' : 'normal'} onClick={() => setTimeRange('week')}>
               Last Week
             </Button>
+            <Button href="/storybook/" target="_blank" iconName="external" iconAlign="right">
+              Storybook
+            </Button>
           </SpaceBetween>
         }
       >
