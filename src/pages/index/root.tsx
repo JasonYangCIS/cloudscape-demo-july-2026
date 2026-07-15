@@ -33,6 +33,7 @@ import {
   COMMITS_DEFAULT_PREFERENCES,
   COMMITS_PAGE_SIZE_OPTIONS,
 } from './commits-table-config';
+import { ThemeSwitcher } from './theme-switcher';
 
 import '../../styles/base.scss';
 
@@ -174,12 +175,15 @@ function DashboardRoot() {
 
 export function App() {
   return (
-    <CustomAppLayout
-      navigationHide={true}
-      toolsHide={true}
-      breadcrumbs={<BreadcrumbGroup items={breadcrumbItems} expandAriaLabel="Show path" ariaLabel="Breadcrumbs" />}
-      content={<DashboardRoot />}
-      contentType="default"
-    />
+    <>
+      <CustomAppLayout
+        navigationHide={true}
+        toolsHide={true}
+        breadcrumbs={<BreadcrumbGroup items={breadcrumbItems} expandAriaLabel="Show path" ariaLabel="Breadcrumbs" />}
+        content={<DashboardRoot />}
+        contentType="default"
+      />
+      <ThemeSwitcher />
+    </>
   );
 }
