@@ -22,6 +22,8 @@ export function ThemeSwitcher() {
         triggerType="custom"
         header="Theme"
         position="top"
+        size="large"
+        fixedWidth={true}
         dismissButton={true}
         content={
           <SegmentedControl
