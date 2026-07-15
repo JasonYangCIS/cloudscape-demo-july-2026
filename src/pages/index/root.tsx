@@ -5,7 +5,9 @@ import React, { useMemo, useState } from 'react';
 import { useCollection } from '@cloudscape-design/collection-hooks';
 import BreadcrumbGroup from '@cloudscape-design/components/breadcrumb-group';
 import Button from '@cloudscape-design/components/button';
-import CollectionPreferences, { CollectionPreferencesProps } from '@cloudscape-design/components/collection-preferences';
+import CollectionPreferences, {
+  CollectionPreferencesProps,
+} from '@cloudscape-design/components/collection-preferences';
 import ColumnLayout from '@cloudscape-design/components/column-layout';
 import Container from '@cloudscape-design/components/container';
 import Header from '@cloudscape-design/components/header';
@@ -71,6 +73,9 @@ function CommitsDashboardContent({ commits }: CommitsDashboardContentProps) {
         description="Commit activity across all repositories."
         actions={
           <SpaceBetween direction="horizontal" size="xs">
+            <Button href="/storybook/" target="_blank" iconName="external">
+              Storybook
+            </Button>
             <Button variant={period === 'month' ? 'primary' : 'normal'} onClick={() => setPeriod('month')}>
               Last Month
             </Button>
