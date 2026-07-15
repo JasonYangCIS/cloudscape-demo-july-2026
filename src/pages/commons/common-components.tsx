@@ -12,6 +12,7 @@ import enMessages from '@cloudscape-design/components/i18n/messages/all.en.json'
 import SpaceBetween from '@cloudscape-design/components/space-between';
 
 import { isVisualRefresh } from '../../common/apply-mode';
+import { ThemeSwitcher } from './theme-switcher';
 
 // backward compatibility
 export * from './index';
@@ -71,6 +72,7 @@ export const CustomAppLayout = forwardRef<AppLayoutProps.Ref, AppLayoutProps>(fu
   return (
     <I18nProvider locale="en" messages={[enMessages]}>
       {isVisualRefresh ? <AppLayoutToolbar ref={ref} {...props} /> : <AppLayout ref={ref} {...props} />}
+      <ThemeSwitcher />
     </I18nProvider>
   );
 });
