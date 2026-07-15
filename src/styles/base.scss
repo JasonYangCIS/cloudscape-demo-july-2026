@@ -7,6 +7,24 @@ body {
   position: relative;
 }
 
+.commits-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.commits-toolbar__filter {
+  flex: 1 1 320px;
+}
+
+.commits-toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
 .custom-main-header {
   display: block;
   position: sticky;

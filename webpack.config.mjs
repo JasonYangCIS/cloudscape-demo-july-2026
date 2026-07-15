@@ -88,6 +88,14 @@ const createWebpackConfig = (base, { includeDevServer }) => {
     ...(includeDevServer
       ? {
           devServer: {
+            client: {
+              overlay: {
+                // Chrome can dispatch this as a window error when multiple ResizeObservers
+                // resolve within the same frame (common with charts in flexible layouts).
+                // It's a benign browser notification, not an application error.
+                runtimeErrors: error => !error.message.includes('ResizeObserver loop'),
+              },
+            },
             devMiddleware: {
               publicPath: '/' + path.relative(config.outputPath, base.output.path),
             },
