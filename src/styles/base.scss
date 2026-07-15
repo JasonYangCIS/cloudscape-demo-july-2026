@@ -1,10 +1,20 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 @use '~@cloudscape-design/design-tokens' as cs;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
 
 body {
   background: cs.$color-background-layout-main;
   position: relative;
+}
+
+.theme-switcher-fab {
+  position: fixed;
+  right: cs.$space-scaled-l;
+  bottom: cs.$space-scaled-l;
+  z-index: 2000;
+  border-radius: 50%;
+  box-shadow: cs.$shadow-container-active;
 }
 
 .commits-dashboard-toolbar {

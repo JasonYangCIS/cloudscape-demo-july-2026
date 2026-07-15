@@ -22,6 +22,7 @@ import { CustomAppLayout, TableEmptyState, TableNoMatchState } from '../commons/
 import { useLocalStorage } from '../commons/use-local-storage';
 import { getCommitsPerDaySeries, getCommitsPerRepoSeries } from './chart-data';
 import { COLUMN_DEFINITIONS, DEFAULT_PREFERENCES, Preferences } from './table-config';
+import { ThemeSwitcher } from './theme-switcher';
 
 import '../../styles/base.scss';
 
@@ -162,12 +163,15 @@ export interface AppProps {
 
 export function App({ commits }: AppProps) {
   return (
-    <CustomAppLayout
-      navigationHide={true}
-      toolsHide={true}
-      breadcrumbs={<Breadcrumbs items={[{ text: 'Commits dashboard', href: '#' }]} />}
-      content={<DashboardContent commits={commits} />}
-      contentType="default"
-    />
+    <>
+      <CustomAppLayout
+        navigationHide={true}
+        toolsHide={true}
+        breadcrumbs={<Breadcrumbs items={[{ text: 'Commits dashboard', href: '#' }]} />}
+        content={<DashboardContent commits={commits} />}
+        contentType="default"
+      />
+      <ThemeSwitcher />
+    </>
   );
 }
