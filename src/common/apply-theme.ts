@@ -48,6 +48,19 @@ const terminalTokens = {
   colorBorderInputFocused: '#00ff41',
   borderRadiusContainer: '0px',
   borderRadiusInput: '0px',
+  colorChartsPaletteCategorical1: '#00ff41',
+  colorChartsPaletteCategorical2: '#33ff33',
+  colorChartsPaletteCategorical3: '#66ff66',
+  colorChartsPaletteCategorical4: '#00cc33',
+  colorChartsPaletteCategorical5: '#009926',
+  colorChartsPaletteCategorical6: '#00e63b',
+  colorChartsStatusPositive: '#00ff41',
+  colorChartsStatusInfo: '#33ff33',
+  colorChartsStatusNeutral: '#00994d',
+  colorChartsThresholdInfo: '#00ff41',
+  colorChartsThresholdPositive: '#00ff41',
+  colorChartsThresholdNeutral: '#33ff33',
+  colorChartsErrorBarMarker: '#00ff41',
 };
 
 // Dracula IDE palette (https://draculatheme.com)
