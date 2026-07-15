@@ -24,6 +24,21 @@ const THEME_OPTIONS = [
   { id: 'creative', text: 'Creative', iconName: 'gen-ai' as const },
 ];
 
+const CREATIVE_FONT_ID = 'creative-theme-font';
+const CREATIVE_FONT_HREF = 'https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap';
+const CREATIVE_FONT_STACK = "'Baloo 2', 'Open Sans', sans-serif";
+
+function loadCreativeFont() {
+  if (document.getElementById(CREATIVE_FONT_ID)) {
+    return;
+  }
+  const link = document.createElement('link');
+  link.id = CREATIVE_FONT_ID;
+  link.rel = 'stylesheet';
+  link.href = CREATIVE_FONT_HREF;
+  document.head.appendChild(link);
+}
+
 let activeCreativeTheme: ApplyThemeResult | null = null;
 
 function applyDashboardTheme(theme: ThemeId) {
@@ -42,19 +57,37 @@ function applyDashboardTheme(theme: ThemeId) {
   applyMode(Mode.Light);
 
   if (theme === 'creative') {
+    loadCreativeFont();
     document.body.setAttribute('data-theme', 'creative');
     activeCreativeTheme = applyTheme({
       theme: {
         tokens: {
-          colorBackgroundButtonPrimaryDefault: { light: '#7c3aed' },
-          colorBackgroundButtonPrimaryHover: { light: '#a855f7' },
-          colorBackgroundButtonPrimaryActive: { light: '#6d28d9' },
-          colorTextAccent: { light: '#a855f7' },
-          colorTextLinkDefault: { light: '#a855f7' },
-          colorTextLinkHover: { light: '#7c3aed' },
-          borderRadiusButton: '24px',
-          borderRadiusContainer: '16px',
-          borderRadiusInput: '12px',
+          fontFamilyBase: CREATIVE_FONT_STACK,
+          fontFamilyHeading: CREATIVE_FONT_STACK,
+          fontFamilyDisplay: CREATIVE_FONT_STACK,
+          colorBackgroundButtonPrimaryDefault: { light: '#ff2d78' },
+          colorBackgroundButtonPrimaryHover: { light: '#ff5c9a' },
+          colorBackgroundButtonPrimaryActive: { light: '#d81b60' },
+          colorBackgroundLayoutMain: { light: '#f6f0ff' },
+          colorBackgroundContainerHeader: { light: '#ede2ff' },
+          colorBackgroundSegmentActive: { light: '#7c3aed' },
+          colorBackgroundSegmentHover: { light: '#ede2ff' },
+          colorTextAccent: { light: '#7c3aed' },
+          colorTextHeadingDefault: { light: '#5b21b6' },
+          colorTextLinkDefault: { light: '#d81b60' },
+          colorTextLinkHover: { light: '#ff2d78' },
+          colorBorderContainerTop: { light: '#a855f7' },
+          colorChartsPaletteCategorical1: { light: '#ff2d78' },
+          colorChartsPaletteCategorical2: { light: '#7c3aed' },
+          colorChartsPaletteCategorical3: { light: '#06b6d4' },
+          colorChartsPaletteCategorical4: { light: '#f59e0b' },
+          colorChartsPaletteCategorical5: { light: '#22c55e' },
+          borderRadiusButton: '999px',
+          borderRadiusContainer: '24px',
+          borderRadiusInput: '16px',
+          borderRadiusDropdown: '16px',
+          borderRadiusPopover: '20px',
+          borderRadiusItem: '12px',
         },
       },
     });

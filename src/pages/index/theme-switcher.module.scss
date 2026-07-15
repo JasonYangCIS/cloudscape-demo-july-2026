@@ -8,6 +8,17 @@
 }
 
 :global(body[data-theme='creative']) {
-  background-image: radial-gradient(circle at top right, rgba(168, 85, 247, 0.08), transparent 40%),
-    radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.08), transparent 40%);
+  background-image: radial-gradient(circle at top right, rgba(255, 45, 120, 0.16), transparent 45%),
+    radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.16), transparent 45%),
+    linear-gradient(135deg, #fdf4ff 0%, #f0f4ff 50%, #fff0f6 100%);
+  background-attachment: fixed;
+
+  h1 {
+    background: linear-gradient(90deg, #ff2d78, #7c3aed, #06b6d4);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+  }
 }
