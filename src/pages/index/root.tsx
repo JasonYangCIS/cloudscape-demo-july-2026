@@ -1,3 +1,4 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -82,6 +83,9 @@ function DashboardContent({ commits }: { commits: Commit[] }) {
             </Button>
             <Button variant={dateRange === 'week' ? 'primary' : 'normal'} onClick={() => setDateRange('week')}>
               Last Week
+            </Button>
+            <Button iconName="external" iconAlign="right" href="/storybook/" target="_blank">
+              Component stories
             </Button>
           </SpaceBetween>
         }
