@@ -25,6 +25,7 @@ import { useLocalStorage } from '../commons/use-local-storage';
 import logo from '../non-console/logo.svg';
 import { getCommitsByRepoSeries, getDailyCommitSeries } from './chart-data';
 import { COLUMN_DEFINITIONS, CONTENT_DISPLAY_OPTIONS, DEFAULT_PREFERENCES, PAGE_SIZE_OPTIONS } from './table-config';
+import { ThemeSwitcher } from './theme-switcher';
 
 import '../../styles/base.scss';
 import '../../styles/top-navigation.scss';
@@ -247,6 +248,7 @@ export function App({ commits }: AppProps) {
         content={<CommitsDashboard commits={commits} />}
         contentType="default"
       />
+      <ThemeSwitcher />
     </>
   );
 }

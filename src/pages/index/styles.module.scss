@@ -32,3 +32,13 @@
   flex: 1 1 320px;
   min-width: 0;
 }
+
+.floatingThemeButton {
+  position: fixed;
+  inset-block-end: cs.$space-scaled-xl;
+  inset-inline-end: cs.$space-scaled-xl;
+  z-index: 2000;
+  border-radius: 50%;
+  box-shadow: cs.$shadow-card;
+  background: cs.$color-background-container-content;
+}
